@@ -92,7 +92,7 @@ const Navbar = () => {
 
         {/* Mouse Follow Gradient */}
         <motion.div
-          className="absolute w-64 h-64 rounded-full bg-gradient-radial from-primary/20 to-transparent blur-3xl pointer-events-none opacity-50"
+          className="absolute w-64 h-64 rounded-full bg-radial from-primary/20 to-transparent blur-3xl pointer-events-none opacity-50"
           style={{
             left: smoothX,
             top: smoothY,
@@ -142,7 +142,7 @@ const Navbar = () => {
               >
                 <Sparkles className="w-5 h-5 text-primary-foreground relative z-10" />
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-primary"
+                  className="absolute inset-0 bg-linear-to-r from-primary via-secondary to-primary"
                   animate={{ x: ["-100%", "100%"] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                   style={{ opacity: 0.5 }}
@@ -240,7 +240,7 @@ const Navbar = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <a href="/contacto" className="group relative ml-4">
+            <a href="/contacto" className="group relative ">
               <motion.div
                 className="absolute -inset-1 bg-gradient-primary rounded-full blur-md opacity-50 group-hover:opacity-100 transition-opacity duration-300"
                 animate={{
@@ -255,7 +255,7 @@ const Navbar = () => {
               >
                 {/* Shimmer Effect */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent"
                   animate={{ x: ["-100%", "100%"] }}
                   transition={{
                     duration: 1.5,
@@ -334,7 +334,7 @@ const Navbar = () => {
               exit={{ scale: 0.95 }}
             >
               {/* Mobile Menu Glow */}
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent rounded-2xl pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-b from-primary/10 to-transparent rounded-2xl pointer-events-none" />
 
               <div className="relative flex flex-col gap-2">
                 {navLinks.map((link, index) => (
@@ -376,7 +376,7 @@ const Navbar = () => {
                     className="mt-2 px-4 py-3 rounded-xl bg-gradient-primary text-primary-foreground font-inter text-sm font-semibold text-center block relative overflow-hidden"
                   >
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                      className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent"
                       animate={{ x: ["-100%", "100%"] }}
                       transition={{
                         duration: 1.5,

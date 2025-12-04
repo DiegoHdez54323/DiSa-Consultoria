@@ -1,5 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { HeroSection } from "../components/index/HeroSection";
 ---
 
-<Layout />
+<BaseLayout>
+  <HeroSection client:load />
+</BaseLayout>

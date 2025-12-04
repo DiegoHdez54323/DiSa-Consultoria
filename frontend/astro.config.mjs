@@ -5,17 +5,17 @@ import tailwindcss from "@tailwindcss/vite";
 
 import sanity from "@sanity/astro";
 
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
 
-  integrations: [
-    sanity({
-      projectId: "tyjgqdg3",
-      dataset: "production",
-      useCdn: false, // for static builds
-    }),
-  ],
+  integrations: [sanity({
+    projectId: "tyjgqdg3",
+    dataset: "production",
+    useCdn: false, // for static builds
+  }), react()],
 });

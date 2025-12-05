@@ -1,53 +1,65 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github} from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 
 const projects = [
   {
     title: "FinTech Dashboard",
     category: "Aplicación Web",
-    description: "Plataforma de análisis financiero en tiempo real con visualizaciones interactivas y predicciones basadas en IA.",
+    description:
+      "Plataforma de análisis financiero en tiempo real con visualizaciones interactivas y predicciones basadas en IA.",
     technologies: ["React", "Node.js", "PostgreSQL", "TensorFlow"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
     color: "from-primary to-accent",
   },
   {
     title: "HealthCare App",
     category: "Aplicación Móvil",
-    description: "Sistema de gestión hospitalaria con telemedicina, historiales clínicos y programación inteligente de citas.",
+    description:
+      "Sistema de gestión hospitalaria con telemedicina, historiales clínicos y programación inteligente de citas.",
     technologies: ["React Native", "Firebase", "Python", "AWS"],
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
     color: "from-accent to-secondary",
   },
   {
     title: "E-Commerce Platform",
     category: "Plataforma Web",
-    description: "Marketplace B2B con sistema de pagos integrado, logística automatizada y panel de analytics.",
+    description:
+      "Marketplace B2B con sistema de pagos integrado, logística automatizada y panel de analytics.",
     technologies: ["Next.js", "Stripe", "MongoDB", "Docker"],
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=600&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=600&fit=crop",
     color: "from-secondary to-primary",
   },
   {
     title: "IoT Management",
     category: "Sistema Industrial",
-    description: "Centro de control para dispositivos IoT industriales con monitoreo en tiempo real y mantenimiento predictivo.",
+    description:
+      "Centro de control para dispositivos IoT industriales con monitoreo en tiempo real y mantenimiento predictivo.",
     technologies: ["Vue.js", "Go", "InfluxDB", "MQTT"],
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
     color: "from-primary to-secondary",
   },
   {
     title: "AI Content Studio",
     category: "Herramienta SaaS",
-    description: "Plataforma de generación de contenido con IA, incluyendo texto, imágenes y análisis de sentimiento.",
+    description:
+      "Plataforma de generación de contenido con IA, incluyendo texto, imágenes y análisis de sentimiento.",
     technologies: ["TypeScript", "OpenAI", "Redis", "Kubernetes"],
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
     color: "from-accent to-primary",
   },
   {
     title: "Smart Logistics",
     category: "Sistema Empresarial",
-    description: "Optimización de rutas y gestión de flota con machine learning y tracking en tiempo real.",
+    description:
+      "Optimización de rutas y gestión de flota con machine learning y tracking en tiempo real.",
     technologies: ["Angular", "Java", "Kafka", "GCP"],
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop",
     color: "from-secondary to-accent",
   },
 ];
@@ -85,11 +97,12 @@ export const PortfolioSection = () => {
             Portafolio
           </span>
           <h2 className="font-orbitron text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Proyectos que <span className="text-gradient-secondary">inspiran</span>
+            Proyectos que{" "}
+            <span className="text-gradient-secondary">inspiran</span>
           </h2>
           <p className="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ideas disruptivas convertidas en soluciones reales. 
-            Cada proyecto es una historia de innovación y excelencia técnica.
+            Ideas disruptivas convertidas en soluciones reales. Cada proyecto es
+            una historia de innovación y excelencia técnica.
           </p>
         </motion.div>
 
@@ -115,8 +128,10 @@ export const PortfolioSection = () => {
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className={`absolute inset-0 bg-gradient-to-t ${project.color} opacity-40 group-hover:opacity-60 transition-opacity`} />
-                  
+                  <div
+                    className={`absolute inset-0 bg-linear-to-t ${project.color} opacity-40 group-hover:opacity-60 transition-opacity`}
+                  />
+
                   {/* Category badge */}
                   <div className="absolute top-4 left-4 px-3 py-1 rounded-full glass text-xs font-inter font-medium text-foreground">
                     {project.category}
@@ -141,7 +156,7 @@ export const PortfolioSection = () => {
                   <p className="font-inter text-sm text-muted-foreground mb-4 line-clamp-2">
                     {project.description}
                   </p>
-                  
+
                   {/* Technologies */}
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech) => (

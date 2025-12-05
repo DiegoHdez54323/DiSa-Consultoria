@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer.astro";
+
+const {
+  title = "DiSa Software - Consultoría de Software",
+  description = "Consultoría de software, automatización y soluciones digitales a la medida.",
+} = Astro.props;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width-device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <!-- Aquí podrías agregar más meta tags, favicon, etc. -->
+  </head>
+  <body
+    class="min-h-screen flex flex-col bg-background text-foreground antialiased"
+  >
+    {/* Navbar fijo arriba como isla React */}
+    <Navbar client:load />
+
+    {/* Padding-top para que el contenido no quede debajo del nav fijo */}
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

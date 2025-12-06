@@ -1,0 +1,150 @@
+---
+import { Code, Cloud, Cpu, Palette, Workflow, Bot } from "lucide-react";
+
+const services = [
+  {
+    icon: Code,
+    title: "Desarrollo a Medida",
+    description:
+      "Software personalizado que se adapta perfectamente a tus procesos de negocio.",
+    gradient: "from-primary to-accent",
+  },
+  {
+    icon: Workflow,
+    title: "Integraciones & APIs",
+    description:
+      "Conectamos tus sistemas para crear flujos de trabajo eficientes y automatizados.",
+    gradient: "from-accent to-secondary",
+  },
+  {
+    icon: Cpu,
+    title: "Consultoría Tecnológica",
+    description:
+      "Asesoramiento estratégico para tomar las mejores decisiones tecnológicas.",
+    gradient: "from-secondary to-primary",
+  },
+  {
+    icon: Cloud,
+    title: "Arquitectura Cloud",
+    description: "Infraestructura escalable y resiliente en AWS, Azure o GCP.",
+    gradient: "from-primary to-secondary",
+  },
+  {
+    icon: Palette,
+    title: "UX/UI Futurista",
+    description:
+      "Interfaces que cautivan y experiencias de usuario que convierten.",
+    gradient: "from-accent to-primary",
+  },
+  {
+    icon: Bot,
+    title: "Automatización & IA",
+    description:
+      "Potenciamos tu negocio con inteligencia artificial y automatización inteligente.",
+    gradient: "from-secondary to-accent",
+  },
+];
+
+// tiempo entre tarjetas del stagger (en ms)
+const STAGGER_MS = 150;
+---
+
+<section class="relative py-24 bg-background overflow-hidden">
+  {/* Background elements */}
+  <div class="absolute inset-0 bg-grid opacity-20"></div>
+  <div
+    class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-3xl"
+  >
+  </div>
+
+  <div class="relative container mx-auto px-6">
+    {/* Section Header */}
+    <div
+      class="text-center mb-16 fade-up-init"
+      data-animate-on-scroll
+      style={`transition-delay: 0ms;`}
+    >
+      <span
+        class="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary text-sm font-inter font-medium mb-4"
+      >
+        Nuestros Servicios
+      </span>
+      <h2
+        class="font-orbitron text-3xl md:text-5xl font-bold text-foreground mb-4"
+      >
+        Soluciones que
+        <span class="text-gradient-primary"> transforman</span>
+      </h2>
+      <p class="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
+        Combinamos tecnología de vanguardia con metodologías ágiles para crear
+        soluciones que impulsan tu negocio hacia el futuro.
+      </p>
+    </div>
+
+    {/* Services Grid */}
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        services.map((service, index) => (
+          <div
+            class="group relative fade-up-init"
+            data-animate-on-scroll
+            style={`transition-delay: ${STAGGER_MS * (index + 1)}ms;`}
+          >
+            <div class="relative h-full p-8 rounded-2xl bg-gradient-card border border-border/50 overflow-hidden transition-all duration-500 hover:border-primary/30 hover:glow-primary">
+              {/* Glow effect on hover */}
+              <div
+                class={`absolute inset-0 bg-linear-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+              />
+
+              {/* Icon */}
+              <div
+                class={`relative w-14 h-14 rounded-xl bg-linear-to-br ${service.gradient} p-0.5 mb-6`}
+              >
+                <div class="w-full h-full rounded-xl bg-card flex items-center justify-center">
+                  <service.icon className="w-7 h-7 text-primary" />
+                </div>
+              </div>
+
+              {/* Content */}
+              <h3 class="font-orbitron text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+                {service.title}
+              </h3>
+              <p class="font-inter text-muted-foreground leading-relaxed">
+                {service.description}
+              </p>
+
+              {/* Bottom line accent */}
+              <div
+                class={`absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r ${service.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  {/* Script: animar cuando entren en viewport */}
+  <script>
+    if (typeof window !== "undefined") {
+      const elements = document.querySelectorAll("[data-animate-on-scroll]");
+
+      if (elements.length > 0) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.remove("fade-up-init");
+                entry.target.classList.add("fade-up-in");
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.2 }
+        );
+
+        elements.forEach((el) => observer.observe(el));
+      }
+    }
+  </script>
+</section>

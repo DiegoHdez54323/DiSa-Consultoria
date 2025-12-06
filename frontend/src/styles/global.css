@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sora&family=Inter:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 @import "tailwind-animate";
 @custom-variant dark (&:is(.dark *));
 
 @theme {
   /* Fuentes */
-  --font-orbitron: "Orbitron", sans-serif;
+  --font-orbitron: "Sora", sans-serif;
   --font-inter: "Inter", sans-serif;
 
   /* Border Radius */
@@ -244,14 +244,14 @@
   h4,
   h5,
   h6 {
-    font-family: "Orbitron", sans-serif;
+    font-family: var(--font-orbitron);
   }
 }
 
 /* 8. Utilidades personalizadas (tal cual venían de index.css) */
 @layer utilities {
   .font-orbitron {
-    font-family: "Orbitron", sans-serif;
+    font-family: var(--font-orbitron);
   }
 
   .font-inter {
@@ -281,33 +281,6 @@
 
   .bg-gradient-card {
     background-image: var(--gradient-card);
-  }
-
-  .glow-primary {
-    box-shadow: var(--shadow-glow);
-  }
-
-  .glow-primary-lg {
-    box-shadow: var(--shadow-glow-lg);
-  }
-
-  .glow-secondary {
-    box-shadow: var(--shadow-purple);
-  }
-
-  .border-glow {
-    @apply border border-primary/30;
-    box-shadow:
-      inset 0 0 20px hsl(185 100% 50% / 0.1),
-      var(--shadow-glow);
-  }
-
-  .glass {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50;
-  }
-
-  .glass-strong {
-    @apply bg-card/80 backdrop-blur-2xl border border-border/50;
   }
 
   /* Particle grid background */
@@ -347,6 +320,47 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
+
+  .fade-up-init {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .fade-up-in {
+    opacity: 1;
+    transform: translateY(0);
+    /* Duración y easing del “pop in” */
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+}
+
+@utility glow-primary {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility glow-primary-lg {
+  box-shadow: var(--shadow-glow-lg);
+}
+
+@utility glow-secondary {
+  box-shadow: var(--shadow-purple);
+}
+
+@utility border-glow {
+  @apply border border-primary/30;
+  box-shadow:
+    inset 0 0 20px hsl(185 100% 50% / 0.1),
+    var(--shadow-glow);
+}
+
+@utility glass {
+  @apply bg-card/60 backdrop-blur-xl border border-border/50;
+}
+
+@utility glass-strong {
+  @apply bg-card/80 backdrop-blur-2xl border border-border/50;
 }
 
 /* 9. Keyframes adicionales que se usan directamente en CSS */

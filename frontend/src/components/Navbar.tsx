@@ -72,7 +72,7 @@ const Navbar = () => {
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       onMouseMove={handleMouseMove}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "py-2" : "py-4"
+        isScrolled ? "py-4" : "py-6"
       }`}
     >
       {/* Animated Background */}
@@ -196,7 +196,7 @@ const Navbar = () => {
                   {hoveredLink === link.href && (
                     <motion.div
                       layoutId="navbar-hover-bg"
-                      className="absolute inset-0 bg-primary/10 rounded-lg -z-10"
+                      className="absolute inset-0 bg-primary/10 rounded-lg z-0"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}

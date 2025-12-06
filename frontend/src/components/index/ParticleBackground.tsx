@@ -30,7 +30,7 @@ export const ParticleBackground = () => {
     window.addEventListener("resize", resizeCanvas);
 
     // Initialize particles
-    const particleCount = 80;
+    const particleCount = 140;
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,

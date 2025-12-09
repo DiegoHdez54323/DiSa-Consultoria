@@ -1,0 +1,91 @@
+---
+import { Sparkles } from "lucide-astro";
+---
+
+<section class="relative pt-32 pb-24 overflow-hidden">
+  {/* Animated background (CSS Animation instead of Framer Motion) */}
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-grid opacity-20"></div>
+    {/* Blobs animados con CSS */}
+    <div
+      class="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-conic from-primary/20 via-transparent to-primary/20 rounded-full blur-3xl animate-blob"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gradient-conic from-secondary/20 via-transparent to-accent/20 rounded-full blur-3xl animate-blob animation-delay-2000"
+    >
+    </div>
+  </div>
+
+  <div class="relative container mx-auto px-6 text-center">
+    <div class="max-w-5xl mx-auto">
+      {/* Label */}
+      <div class="scroll-reveal flex justify-center mb-8">
+        <div class="relative">
+          <div
+            class="absolute inset-0 bg-gradient-primary rounded-full blur-md opacity-50"
+          >
+          </div>
+          <span
+            class="relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-inter font-medium"
+          >
+            <Sparkles class="w-4 h-4" />
+            Nuestros Servicios
+          </span>
+        </div>
+      </div>
+
+      {/* Main heading */}
+      <div class="mb-8">
+        <h1
+          class="scroll-reveal delay-100 font-orbitron text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-4"
+        >
+          Creamos el
+        </h1>
+        <div class="scroll-reveal delay-200 relative inline-block">
+          <span
+            class="font-orbitron text-5xl md:text-7xl lg:text-8xl font-bold text-gradient-primary"
+          >
+            Futuro Digital
+          </span>
+          {/* Underline */}
+          <div
+            class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-primary rounded-full origin-left scale-x-100"
+          >
+          </div>
+        </div>
+      </div>
+
+      <p
+        class="scroll-reveal delay-300 font-inter text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto"
+      >
+        Transformamos ideas en soluciones tecnológicas que impulsan el
+        crecimiento de tu negocio.
+      </p>
+
+      {/* Scroll indicator */}
+      <div class="scroll-reveal delay-500 flex justify-center mt-16">
+        <div
+          class="w-6 h-10 rounded-full border-2 border-primary/30 flex items-start justify-center p-2"
+        >
+          <div class="w-1 h-2 bg-primary rounded-full animate-bounce"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Animación simple equivalente a la de Framer Motion */
+  @keyframes blob {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(180deg); }
+    100% { transform: scale(1) rotate(360deg); }
+  }
+  .animate-blob {
+    animation: blob 20s infinite linear;
+  }
+  .animation-delay-2000 {
+    animation-delay: -10s; /* Empezar en otro punto */
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+const steps = [
+  { step: "01", title: "Descubrimiento", desc: "Analizamos tus necesidades y objetivos" },
+  { step: "02", title: "Estrategia", desc: "Diseñamos la solución perfecta" },
+  { step: "03", title: "Desarrollo", desc: "Construimos con las mejores prácticas" },
+  { step: "04", title: "Lanzamiento", desc: "Desplegamos y optimizamos" },
+];
+---
+
+<section class="relative py-24 overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-hero"></div>
+  <div class="absolute inset-0 bg-grid opacity-10"></div>
+
+  <div class="relative container mx-auto px-6">
+    <div class="text-center mb-16 scroll-reveal">
+      <span
+        class="font-inter text-sm uppercase tracking-widest text-primary mb-4 block"
+      >
+        Metodología
+      </span>
+      <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-foreground mb-4">
+        Nuestro <span class="text-gradient-primary">Proceso</span>
+      </h2>
+      <p class="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
+        Un enfoque estructurado que garantiza resultados excepcionales
+      </p>
+    </div>
+
+    {/* Process steps */}
+    <div class="grid md:grid-cols-4 gap-8">
+      {
+        steps.map((item, i) => (
+          <div
+            class="relative group scroll-reveal"
+            style={`transition-delay: ${i * 150}ms`}
+          >
+            {/* Connector line (Desktop only, excepto el ultimo) */}
+            {i < steps.length - 1 && (
+              <div class="hidden md:block absolute top-8 left-[60%] w-full h-[2px] bg-linear-to-r from-primary/50 to-transparent" />
+            )}
+
+            <div class="relative text-center">
+              <div
+                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-primary text-primary-foreground font-orbitron font-bold text-xl mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+              >
+                {item.step}
+              </div>
+              <h3 class="font-orbitron text-xl font-semibold text-foreground mb-2">
+                {item.title}
+              </h3>
+              <p class="font-inter text-sm text-muted-foreground">
+                {item.desc}
+              </p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

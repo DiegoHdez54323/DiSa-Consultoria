@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ServicesHero from "../components/services/ServicesHero.astro";
+import ProcessSection from "../components/services/ProcessSection.astro";
+import CTASection from "../components/services/CTASection.astro";
+import { ServiceCard3D } from "../components/services/ServiceCard3D";
+import { servicesData } from "../data/servicesFull";
+---
+
+<BaseLayout
+  title="Servicios | DiSa Consultoría"
+  description="Soluciones tecnológicas a medida: Desarrollo Web, Cloud, IA y Consultoría."
+>
+  <main class="min-h-screen bg-background overflow-hidden">
+    
+    {/* 1. Hero: Renderizado estático en servidor (Rápido) */}
+    <ServicesHero />
+
+    {/* 2. Grid de Servicios: Híbrido */}
+    <section class="relative py-24">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16 scroll-reveal">
+          <span
+            class="font-inter text-sm uppercase tracking-widest text-primary mb-4 block"
+          >
+            Soluciones Integrales
+          </span>
+          <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-foreground">
+            ¿Cómo podemos <span class="text-gradient-secondary">ayudarte</span>?
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {
+            servicesData.map((service, index) => (
+              /* Cargamos React solo cuando es visible para ahorrar recursos */
+              <ServiceCard3D
+                client:visible
+                service={service}
+                index={index}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    {/* 3. Proceso: Renderizado estático */}
+    <ProcessSection />
+
+    {/* 4. CTA: Renderizado estático */}
+    <CTASection />
+    
+  </main>
+</BaseLayout>

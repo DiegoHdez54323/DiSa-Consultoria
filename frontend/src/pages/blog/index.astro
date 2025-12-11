@@ -1,0 +1,46 @@
+---
+/// src/pages/blog/index.astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogListing from "../../components/blog/BlogListing";
+import {
+  getAllBlogPosts,
+  getAllBlogCategories,
+} from "../../services/blogService";
+import { POSTS_PER_PAGE } from "../../config/blog";
+import type { BlogPost, BlogCategory } from "../../sanity/types/blog";
+
+const [allPosts, allCategories]: [BlogPost[], BlogCategory[]] =
+  await Promise.all([getAllBlogPosts(), getAllBlogCategories()]);
+
+// 1. Featured + regular
+const featuredPost = allPosts.find((p) => p.featured);
+const regularPosts = allPosts.filter((p) => !p.featured);
+
+// 2. Paginación global (scope = "all")
+const totalPostsInScope = regularPosts.length;
+const totalPages = Math.ceil(totalPostsInScope / POSTS_PER_PAGE);
+const page = 1;
+const pagePosts = regularPosts.slice(0, POSTS_PER_PAGE);
+const allScopePosts = regularPosts;
+
+// 3. Categorías desde Sanity
+const categories = allCategories.map((cat) => ({
+  slug: cat.slug,
+  title: cat.title,
+}));
+---
+
+<BaseLayout title="Blog | DiSa Consultoría">
+  <BlogListing
+    client:load
+    scope="all"
+    page={page}
+    totalPages={totalPages}
+    totalPostsInScope={totalPostsInScope}
+    pagePosts={pagePosts}
+    allScopePosts={allScopePosts}
+    categories={categories}
+    featuredPost={featuredPost}
+    basePath="/blog"
+  />
+</BaseLayout>

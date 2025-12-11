@@ -1,0 +1,187 @@
+---
+import PortableText from "../../PortableText.astro";
+import type { BlogPost } from "../../../sanity/types/blog";
+import BlogAuthorCard from "./BlogAuthorCard.astro";
+import BlogSidebarToc from "./BlogSidebarToc.astro";
+import type { PortableTextBlock } from "@portabletext/types";
+import { slugifyHeading } from "../../../utils/blog/slugify-heading";
+
+import { Clock, Calendar, Tag, Sparkles } from "lucide-astro";
+import {
+  formatBlogDate,
+  formatBlogReadTime,
+  getPostMainCategory,
+} from "../../../utils/blog/post-helpers";
+
+interface Props {
+  post: BlogPost;
+  authorAvatarUrl?: string;
+}
+
+interface TocHeading {
+  id: string;
+  text: string;
+}
+
+const { post, authorAvatarUrl } = Astro.props as Props;
+
+const bodyBlocks = (post.body ?? []) as PortableTextBlock[];
+
+const mainCategory = getPostMainCategory(post);
+const publishedAtLabel = formatBlogDate(post.publishedAt);
+const readTimeLabel = post.readTime
+  ? `${formatBlogReadTime(post.readTime)} lectura`
+  : undefined;
+
+//Extraer solo los H2
+const tocHeadings: TocHeading[] = bodyBlocks
+  .filter(
+    (block) =>
+      (block as any)?._type === "block" && (block as any).style === "h2"
+  )
+  .map((block) => {
+    const children = ((block as any).children ?? []) as Array<{
+      text?: string;
+    }>;
+    const text = children
+      .map((c) => c.text ?? "")
+      .join("")
+      .trim();
+
+    return {
+      id: slugifyHeading(text || ""),
+      text: text,
+    };
+  })
+  .filter((h) => h.text.length > 0);
+---
+
+<!-- Article Content -->
+<section class="py-16 relative">
+  <!-- Background Elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div
+      class="absolute top-1/4 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl"
+    >
+    </div>
+    <div
+      class="absolute bottom-1/4 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl"
+    >
+    </div>
+  </div>
+
+  <div class="container mx-auto px-6">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <!-- Rail decorativo + meta (solo desktop) -->
+      <aside class="hidden lg:block lg:col-span-1">
+        <div class="h-full flex justify-center">
+          <div
+            class="w-0.5 rounded-full bg-linear-to-b from-primary/40 via-accent/40 to-transparent relative"
+          >
+            <!-- Puntos decorativos -->
+            <span
+              class="absolute top-10 -left-[3px] w-2 h-2 rounded-full bg-primary/70 blur-[1px]"
+            ></span>
+            <span
+              class="absolute top-40 -left-[3px] w-2 h-2 rounded-full bg-accent/70 blur-[1px]"
+            ></span>
+            <span
+              class="absolute top-72 -left-[3px] w-2 h-2 rounded-full bg-primary/60 blur-[1px]"
+            ></span>
+          </div>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <article class="lg:col-span-7" data-article-with-toc>
+        <PortableText portableText={post.body} />
+
+        <BlogAuthorCard post={post} authorAvatarUrl={authorAvatarUrl} />
+      </article>
+
+      <BlogSidebarToc headings={tocHeadings} />
+    </div>
+  </div>
+
+  <!-- Script para asignar IDs a los H2 del artículo -->
+  <script>
+    function slugifyHeading(text: string) {
+      return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-");
+    }
+
+    window.addEventListener("load", () => {
+      const article = document.querySelector("[data-article-with-toc]");
+      if (!article) return;
+
+      const headings = Array.from(article.querySelectorAll("h2"));
+      if (!headings.length) return;
+
+      const toc = document.querySelector(".js-article-toc");
+      if (!toc) return;
+
+      const links = Array.from(toc.querySelectorAll('a[href^="#"]'));
+
+      // Asignamos IDs a los H2 (coinciden con los href de la TOC)
+      const idToLink = new Map();
+      headings.forEach((h) => {
+        const text = (h.textContent || "").trim();
+        if (!text) return;
+
+        const id = slugifyHeading(text);
+        if (!h.id) {
+          h.id = id;
+        }
+
+        const link = toc.querySelector(`a[href="#${id}"]`);
+        if (link) {
+          idToLink.set(id, link);
+        }
+      });
+
+      if (!idToLink.size) return;
+
+      // Función para marcar el link activo en la TOC
+      function setActiveLink(id: string) {
+        links.forEach((link) => {
+          link.classList.remove("text-primary", "border-primary");
+          link.classList.add("text-muted-foreground", "border-border/50");
+        });
+
+        const activeLink = idToLink.get(id);
+        if (activeLink) {
+          activeLink.classList.remove(
+            "text-muted-foreground",
+            "border-border/50"
+          );
+          activeLink.classList.add("text-primary", "border-primary");
+        }
+      }
+
+      // ScrollSpy con IntersectionObserver
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = entry.target.id;
+              if (id) {
+                setActiveLink(id);
+              }
+            }
+          });
+        },
+        {
+          // Ajusta este margen según el tamaño de tu header
+          rootMargin: "-80px 0px -60% 0px",
+          threshold: 0.1,
+        }
+      );
+
+      headings.forEach((h) => observer.observe(h));
+    });
+  </script>
+</section>

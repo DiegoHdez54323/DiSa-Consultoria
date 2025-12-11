@@ -16,6 +16,7 @@ function getPostImageUrl(post: BlogPost) {
       .width(800)
       .height(450)
       .fit("crop")
+      .format("webp")
       .url();
   } catch {
     return "";

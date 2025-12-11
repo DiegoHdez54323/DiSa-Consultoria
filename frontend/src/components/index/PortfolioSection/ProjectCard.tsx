@@ -12,6 +12,7 @@ export const ProjectCard = ({ project }: Props) => {
         .width(1200)
         .height(800)
         .fit("crop")
+        .format("webp")
         .url()
     : "";
 

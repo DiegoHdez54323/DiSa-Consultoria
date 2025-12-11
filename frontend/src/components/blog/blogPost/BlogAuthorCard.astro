@@ -1,0 +1,45 @@
+---
+import type { BlogPost } from "../../../sanity/types/blog";
+
+interface Props {
+  post: BlogPost;
+  authorAvatarUrl?: string;
+}
+
+const { post, authorAvatarUrl } = Astro.props as Props;
+---
+
+<!-- Author Card -->
+<div
+  class="mt-12 p-8 rounded-2xl bg-linear-to-br from-muted/50 to-muted/20 border border-border/50"
+>
+  <div class="flex flex-col sm:flex-row gap-6">
+    {
+      authorAvatarUrl && (
+        <div class="relative shrink-0">
+          <img
+            src={authorAvatarUrl}
+            alt={post.author.name}
+            class="w-20 h-20 rounded-full object-cover border-2 border-primary/50"
+          />
+        </div>
+      )
+    }
+    <div>
+      <p class="font-inter text-sm text-muted-foreground mb-1">Escrito por</p>
+      <h4 class="font-sora text-xl font-bold text-foreground mb-1">
+        {post.author.name}
+      </h4>
+      {
+        post.author.role && (
+          <p class="font-inter text-sm text-primary mb-3">{post.author.role}</p>
+        )
+      }
+      <p class="font-inter text-muted-foreground">
+        Apasionado por la tecnología y la innovación. Comparto conocimientos
+        sobre desarrollo, arquitectura de software y las últimas tendencias del
+        sector.
+      </p>
+    </div>
+  </div>
+</div>

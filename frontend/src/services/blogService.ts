@@ -12,6 +12,7 @@ import {
   blogPostBySlugQuery,
   blogPostsByCategorySlugQuery,
   latestBlogPostsQuery,
+  allBlogCategoriesQuery,
 } from "../sanity/queries/blog";
 import { loadQuery } from "../sanity/lib/load-query";
 
@@ -182,5 +183,18 @@ export async function getLatestBlogPosts(): Promise<BlogPost[]> {
   } catch (error) {
     console.error("[blogService] Error al obtener últimos posts:", error);
     throw new Error("No se pudieron obtener los últimos posts de blog.");
+  }
+}
+
+export async function getAllBlogCategories(): Promise<BlogCategory[]> {
+  try {
+    const { data: docs } = await loadQuery<any[]>({
+      query: allBlogCategoriesQuery,
+    });
+
+    return (docs ?? []).map(mapBlogCategory);
+  } catch (error) {
+    console.error("[blogService] Error al obtener categorías de blog:", error);
+    throw new Error("No se pudieron obtener las categorías de blog.");
   }
 }

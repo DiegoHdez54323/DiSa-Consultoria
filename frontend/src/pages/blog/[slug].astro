@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAllBlogPosts } from "../../services/blogService";
+import type { BlogPost } from "../../sanity/types/blog";
+import { urlForImage } from "../../sanity/lib/url-for-image";
+import {
+  formatBlogDate,
+  formatBlogReadTime,
+  getPostMainCategory,
+  getPostImageUrl,
+} from "../../utils/blog/post-helpers";
+
+import BlogHero from "../../components/blog/blogPost/BlogHero.astro";
+import BlogArticle from "../../components/blog/blogPost/BlogArticle.astro";
+import BlogRelatedPosts from "../../components/blog/blogPost/BlogRelatedPosts.astro";
+import BlogNewsletterSection from "../../components/blog/blogPost/BlogNewsletterSection.astro";
+import ReadingProgress from "../../components/blog/blogPost/ReadingProgress.astro";
+
+interface PageProps {
+  post: BlogPost;
+  relatedPosts: BlogPost[];
+}
+
+export async function getStaticPaths() {
+  const allPosts: BlogPost[] = await getAllBlogPosts();
+
+  const paths = allPosts.map((post) => {
+    const currentCategories = post.categories?.map((c) => c.slug) ?? [];
+
+    const relatedPosts = allPosts
+      .filter((p) => p.slug !== post.slug)
+      .filter((p) =>
+        p.categories?.some((cat) => currentCategories.includes(cat.slug))
+      )
+      .slice(0, 3);
+
+    return {
+      params: { slug: post.slug },
+      props: { post, relatedPosts },
+    };
+  });
+
+  return paths;
+}
+
+const { post, relatedPosts } = Astro.props as PageProps;
+
+const mainCategory = getPostMainCategory(post);
+const heroImageUrl = getPostImageUrl(post);
+
+const authorAvatarSource = post.author.avatar?.source;
+const authorAvatarUrl = authorAvatarSource
+  ? urlForImage(authorAvatarSource).width(200).height(200).fit("crop").url()
+  : undefined;
+
+const publishedAtLabel = formatBlogDate(post.publishedAt);
+const readTimeLabel = post.readTime
+  ? `${formatBlogReadTime(post.readTime)} lectura`
+  : undefined;
+---
+
+<BaseLayout title={`${post.title} | DiSa Consultoría`}>
+  <main class="min-h-screen bg-background">
+    <ReadingProgress />
+
+    <BlogHero
+      post={post}
+      mainCategoryTitle={mainCategory?.title}
+      heroImageUrl={heroImageUrl}
+      authorAvatarUrl={authorAvatarUrl}
+      publishedAtLabel={publishedAtLabel}
+      readTimeLabel={readTimeLabel}
+    />
+
+    <BlogArticle post={post} authorAvatarUrl={authorAvatarUrl} />
+
+    {
+      relatedPosts.length > 0 && (
+        <BlogRelatedPosts
+          relatedPosts={relatedPosts}
+          mainCategoryTitle={mainCategory?.title}
+        />
+      )
+    }
+
+    <BlogNewsletterSection />
+  </main>
+</BaseLayout>

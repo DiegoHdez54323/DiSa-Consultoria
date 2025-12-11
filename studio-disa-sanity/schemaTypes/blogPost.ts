@@ -43,7 +43,6 @@ export const blogPost = defineType({
           title: 'Texto alternativo',
           type: 'string',
           description: 'Describe la imagen para accesibilidad y SEO.',
-          validation: (Rule) => Rule.required().error('Añade un texto alternativo para la imagen.'),
         }),
       ],
     }),
@@ -94,22 +93,7 @@ export const blogPost = defineType({
 
     defineField({
       name: 'body',
-      title: 'Contenido',
-      type: 'array',
-      of: [
-        {type: 'block'}, // texto rico
-        {
-          type: 'image',
-          fields: [
-            {
-              name: 'alt',
-              title: 'Texto alternativo',
-              type: 'string',
-            },
-          ],
-        },
-      ],
-      validation: (Rule) => Rule.required(),
+      type: 'blockContent',
     }),
   ],
 

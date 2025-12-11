@@ -1,0 +1,43 @@
+---
+
+---
+
+<!-- Reading Progress Bar -->
+<div
+  id="reading-progress"
+  class="fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left"
+>
+</div>
+
+<!-- Script para progreso de lectura y parallax básico -->
+<script>
+  const progress = document.getElementById(
+    "reading-progress"
+  ) as HTMLDivElement | null;
+
+  function onScroll() {
+    const docHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = docHeight > 0 ? window.scrollY / docHeight : 0;
+
+    if (progress) {
+      progress.style.transform = `scaleX(${scrolled})`;
+    }
+
+    const hero = document.getElementById("hero") as HTMLElement | null;
+    const heroImage = document.querySelector<HTMLElement>(".hero-image");
+
+    // Parallax simple en la imagen del hero
+    if (hero && heroImage) {
+      const rect = hero.getBoundingClientRect();
+      const ratio = Math.min(Math.max(-rect.top / rect.height, 0), 1);
+      heroImage.style.transform = `translateY(${ratio * 30}%) scale(${
+        1 + ratio * 0.1
+      })`;
+    }
+  }
+
+  // Cuando la página termina de cargar, ajustamos el progreso inicial
+  window.addEventListener("load", onScroll);
+  window.addEventListener("scroll", onScroll);
+</script>

@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import BlogListing from "../../../../components/blog/BlogListing";
+import {
+  getAllBlogPosts,
+  getAllBlogCategories,
+} from "../../../../services/blogService";
+import { POSTS_PER_PAGE } from "../../../../config/blog";
+import type { BlogPost, BlogCategory } from "../../../../sanity/types/blog";
+
+interface CategoryUI {
+  slug: string;
+  title: string;
+}
+
+interface PageProps {
+  categorySlug: string;
+  categoryTitle: string;
+  page: number;
+  totalPages: number;
+  totalPostsInScope: number;
+  pagePosts: BlogPost[];
+  allScopePosts: BlogPost[];
+  categories: CategoryUI[];
+  featuredPost?: BlogPost;
+}
+
+export async function getStaticPaths() {
+  const [allPosts, allCategories]: [BlogPost[], BlogCategory[]] =
+    await Promise.all([getAllBlogPosts(), getAllBlogCategories()]);
+
+  const featuredPost = allPosts.find((p) => p.featured);
+
+  const categoriesUI: CategoryUI[] = allCategories.map((cat) => ({
+    slug: cat.slug,
+    title: cat.title,
+  }));
+
+  // Agrupar posts por categoría
+  const postsByCategory = new Map<string, BlogPost[]>();
+  for (const post of allPosts) {
+    for (const cat of post.categories) {
+      if (!postsByCategory.has(cat.slug)) {
+        postsByCategory.set(cat.slug, []);
+      }
+      postsByCategory.get(cat.slug)!.push(post);
+    }
+  }
+
+  const paths: {
+    params: { category: string; page: string };
+    props: PageProps;
+  }[] = [];
+
+  for (const [categorySlug, posts] of postsByCategory) {
+    const totalPostsInScope = posts.length;
+    const totalPages = Math.ceil(totalPostsInScope / POSTS_PER_PAGE);
+
+    const categoryMeta = allCategories.find((c) => c.slug === categorySlug);
+    const categoryTitle = categoryMeta?.title ?? categorySlug;
+
+    for (let page = 1; page <= totalPages; page++) {
+      const startIndex = (page - 1) * POSTS_PER_PAGE;
+      const pagePosts = posts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+
+      paths.push({
+        params: {
+          category: categorySlug,
+          page: String(page),
+        },
+        props: {
+          categorySlug,
+          categoryTitle,
+          page,
+          totalPages,
+          totalPostsInScope,
+          pagePosts,
+          allScopePosts: posts,
+          categories: categoriesUI,
+          featuredPost,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const {
+  categorySlug,
+  categoryTitle,
+  page,
+  totalPages,
+  totalPostsInScope,
+  pagePosts,
+  allScopePosts,
+  categories,
+  featuredPost,
+} = Astro.props as PageProps;
+---
+
+<BaseLayout title={`Blog - ${categoryTitle} | DiSa Consultoría`}>
+  <BlogListing
+    client:load
+    scope="category"
+    activeCategorySlug={categorySlug}
+    page={page}
+    totalPages={totalPages}
+    totalPostsInScope={totalPostsInScope}
+    pagePosts={pagePosts}
+    allScopePosts={allScopePosts}
+    categories={categories}
+    featuredPost={featuredPost}
+    basePath={`/blog/${categorySlug}`}
+  />
+</BaseLayout>

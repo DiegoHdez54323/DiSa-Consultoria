@@ -82,3 +82,13 @@ export const latestBlogPostsQuery = groq`
     ${blogPostFields}
   }
 `;
+
+export const allBlogCategoriesQuery = groq`
+  *[_type == "blogCategory"]
+  | order(title asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    description
+  }
+`;

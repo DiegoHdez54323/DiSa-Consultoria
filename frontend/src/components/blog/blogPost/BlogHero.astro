@@ -1,0 +1,138 @@
+---
+import type { BlogPost } from "../../../sanity/types/blog";
+import { ArrowLeft, Calendar, Clock } from "lucide-astro";
+
+interface Props {
+  post: BlogPost;
+  mainCategoryTitle?: string;
+  heroImageUrl?: string;
+  authorAvatarUrl?: string;
+  publishedAtLabel: string;
+  readTimeLabel?: string;
+}
+
+const {
+  post,
+  mainCategoryTitle,
+  heroImageUrl,
+  authorAvatarUrl,
+  publishedAtLabel,
+  readTimeLabel,
+} = Astro.props as Props;
+---
+
+<!-- Hero Section -->
+<section id="hero" class="relative h-[70vh] min-h-[500px] overflow-hidden">
+  <!-- Parallax Image -->
+  {
+    heroImageUrl && (
+      <div class="absolute inset-0 hero-image will-change-transform">
+        <img
+          src={heroImageUrl}
+          alt={post.mainImage?.alt || post.title}
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent" />
+      </div>
+    )
+  }
+
+  <!-- Background Elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div
+      class="absolute -top-20 -right-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-slow"
+    >
+    </div>
+    <div
+      class="absolute -bottom-20 -left-20 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-pulse-slower"
+    >
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative h-full flex items-end">
+    <div class="container mx-auto px-6 pb-12">
+      <div class="max-w-4xl">
+        <!-- Back Button -->
+        <div class="flex flex-col gap-2">
+          <a
+            href="/blog"
+            class="group flex items-center gap-2 text-foreground/70 hover:text-primary mb-6 transition-colors"
+          >
+            <ArrowLeft
+              class="w-4 h-4 group-hover:-translate-x-1 transition-transform"
+            />
+            <span class="font-inter text-sm">Volver al blog</span>
+          </a>
+
+          <!-- Category Badge -->
+          {
+            mainCategoryTitle && (
+              <span class="self-start inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-inter font-medium mb-4 backdrop-blur-sm border border-primary/30">
+                {mainCategoryTitle}
+              </span>
+            )
+          }
+        </div>
+
+        <!-- Title -->
+        <h1
+          class="font-sora text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6"
+        >
+          {post.title}
+        </h1>
+
+        <!-- Meta Info -->
+        <div class="flex flex-wrap items-center gap-6">
+          <!-- Author -->
+          <div class="flex items-center gap-3">
+            {
+              authorAvatarUrl && (
+                <div class="relative">
+                  <img
+                    src={authorAvatarUrl}
+                    alt={post.author.name}
+                    class="w-12 h-12 rounded-full object-cover border-2 border-primary/50"
+                  />
+                  <div class="absolute inset-0 rounded-full ring-2 ring-primary/30 ring-offset-2 ring-offset-background" />
+                </div>
+              )
+            }
+            <div>
+              <p class="font-inter font-medium text-foreground">
+                {post.author.name}
+              </p>
+              {
+                post.author.role && (
+                  <p class="font-inter text-sm text-muted-foreground">
+                    {post.author.role}
+                  </p>
+                )
+              }
+            </div>
+          </div>
+
+          <div class="h-8 w-px bg-border/50"></div>
+
+          <!-- Date -->
+          <div class="flex items-center gap-2 text-muted-foreground">
+            <Calendar class="w-4 h-4" />
+            <span class="font-inter text-sm">
+              {publishedAtLabel}
+            </span>
+          </div>
+
+          <!-- Read Time -->
+          {
+            readTimeLabel && (
+              <div class="flex items-center gap-2 text-muted-foreground">
+                <Clock class="w-4 h-4" />
+                <span class="font-inter text-sm">{readTimeLabel}</span>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

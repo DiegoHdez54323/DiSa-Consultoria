@@ -1,0 +1,42 @@
+---
+interface Heading {
+  id: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props as Props;
+---
+
+<!-- Right Sidebar - TOC dinámico -->
+<aside class="lg:col-span-3 hidden lg:block">
+  <div class="sticky top-24">
+    <h4
+      class="font-sora text-sm font-semibold text-foreground uppercase tracking-wider mb-4"
+    >
+      En este artículo
+    </h4>
+
+    {
+      headings.length > 0 ? (
+        <nav class="space-y-3 js-article-toc">
+          {headings.map((heading) => (
+            <a
+              href={`#${heading.id}`}
+              class="block font-inter text-sm text-muted-foreground hover:text-primary transition-colors pl-4 border-l-2 border-border/50 hover:border-primary"
+            >
+              {heading.text}
+            </a>
+          ))}
+        </nav>
+      ) : (
+        <p class="font-inter text-sm text-muted-foreground">
+          Este artículo no tiene secciones.
+        </p>
+      )
+    }
+  </div>
+</aside>

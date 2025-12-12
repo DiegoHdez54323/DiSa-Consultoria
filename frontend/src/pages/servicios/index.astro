@@ -1,17 +1,17 @@
 ---
 // src/pages/servicios.astro
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ServicesHero from "../components/services/ServicesHero.astro";
-import ProcessSection from "../components/services/ProcessSection.astro";
-import CTASection from "../components/services/CTASection.astro";
-import { ServiceCard3D } from "../components/services/ServiceCard3D";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServicesHero from "../../components/services/ServicesHero.astro";
+import ProcessSection from "../../components/services/ProcessSection.astro";
+import CTASection from "../../components/services/CTASection.astro";
+import { ServiceCard3D } from "../../components/services/ServiceCard3D";
 
 // 1. Eliminamos la importación estática
 // import { servicesData } from "../data/servicesFull";
 
 // 2. Importamos el servicio de Sanity y los tipos
-import { getAllServices } from "../services/servicesService";
-import type { Service } from "../sanity/types/services";
+import { getAllServices } from "../../services/servicesService";
+import type { Service } from "../../sanity/types/services";
 
 // 3. Obtenemos los datos (Fetching)
 const allServices: Service[] = await getAllServices();
@@ -22,16 +22,19 @@ const allServices: Service[] = await getAllServices();
   description="Soluciones tecnológicas a medida: Desarrollo Web, Cloud, IA y Consultoría."
 >
   <main class="min-h-screen bg-background overflow-hidden">
-    
     <ServicesHero />
 
     <section class="relative py-24">
       <div class="container mx-auto px-6">
         <div class="text-center mb-16 scroll-reveal">
-          <span class="font-inter text-sm uppercase tracking-widest text-primary mb-4 block">
+          <span
+            class="font-inter text-sm uppercase tracking-widest text-primary mb-4 block"
+          >
             Soluciones Integrales
           </span>
-          <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-foreground">
+          <h2
+            class="font-orbitron text-3xl md:text-5xl font-bold text-foreground"
+          >
             ¿Cómo podemos <span class="text-gradient-secondary">ayudarte</span>?
           </h2>
         </div>
@@ -40,11 +43,7 @@ const allServices: Service[] = await getAllServices();
           {
             /* 4. Usamos 'allServices' (datos reales) en lugar de 'servicesData' */
             allServices.map((service, index) => (
-              <ServiceCard3D
-                client:visible
-                service={service} 
-                index={index}
-              />
+              <ServiceCard3D client:visible service={service} index={index} />
             ))
           }
         </div>
@@ -53,6 +52,5 @@ const allServices: Service[] = await getAllServices();
 
     <ProcessSection />
     <CTASection />
-    
   </main>
 </BaseLayout>

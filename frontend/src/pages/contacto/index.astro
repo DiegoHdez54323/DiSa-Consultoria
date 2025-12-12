@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { ContactHero } from "../../components/contact/ContactHero";
+import { ContactMethods } from "../../components/contact/ContactMethods";
+import { ContactForm } from "../../components/contact/ContactForm";
+import { MapSection } from "../../components/contact/MapSection";
+---
+
+<BaseLayout
+  title="Contacto | DiSa Consultoría"
+  description="Ponte en contacto con nuestro equipo para empezar tu próximo proyecto digital."
+>
+  <main class="min-h-screen bg-background overflow-hidden">
+    
+    {/* 1. Hero: Carga interactiva para las animaciones iniciales */}
+    <ContactHero client:load />
+
+    {/* 2. Métodos de contacto: Tarjetas 3D interactivas */}
+    <ContactMethods client:visible />
+
+    {/* 3. Formulario: Manejo de estado del formulario */}
+    <ContactForm client:visible />
+
+    {/* 4. Mapa: Decorativo */}
+    <MapSection client:visible />
+    
+  </main>
+</BaseLayout>

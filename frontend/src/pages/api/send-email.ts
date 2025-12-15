@@ -1,5 +1,6 @@
 export const prerender = false;
 
+import { jsonPath } from "@sanity/client/csm";
 import type { APIRoute } from "astro";
 import { Resend } from "resend";
 import { z } from "zod";
@@ -12,14 +13,33 @@ const contactSchema = z.object({
   email: z.string().email("Email inválido"),
   company: z.string().optional(),
   message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
+  _gotcha: z.string().optional(),
 });
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
+
+    //Validacion de origen
+    const origin = request.headers.get("origin")
+
+    const allowedOrigins = [
+        "http://localhost:4321", //Entorno local
+        "https://disa-consultoria.vercel.app/", //Entorno vercel
+        //Entorno dominio
+    ]
+
+    if (origin && !allowedOrigins.includes(origin)) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), {status: 403});
+    }
     
     // Validar datos con Zod
     const result = contactSchema.safeParse(body);
+
+    if (body._gotcha) {
+        console.warn("Bot bloqueado")
+        return new Response(JSON.stringify({ message: "Mensaje enviado" }), { status: 200})
+    }
     
     if (!result.success) {
       return new Response(JSON.stringify({ 

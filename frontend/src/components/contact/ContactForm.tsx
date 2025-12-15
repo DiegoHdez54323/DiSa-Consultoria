@@ -1,97 +1,14 @@
 import { motion } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { useState } from "react";
-import { z } from "zod";
-
-// Definimos el esquema de validación en el cliente también para feedback inmediato
-const formSchema = z.object({
-  name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  email: z.string().email("Por favor ingresa un email válido"),
-  company: z.string().optional(),
-  message: z.string().min(10, "El mensaje es muy corto, cuéntanos más"),
-});
-
-type FormState = {
-  status: "idle" | "submitting" | "success" | "error";
-  errorMessage?: string;
-};
+import { useContactForm } from "../../hooks/useContactForm"; // Asegúrate de que la ruta sea correcta
 
 export const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-  });
+  // Usamos nuestro Custom Hook para toda la lógica
+  const { formData, handleChange, submitForm, status, errors, errorMessage } = useContactForm();
   
-  const [formState, setFormState] = useState<FormState>({ status: "idle" });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  // Estado local solo para animaciones de UI (focus)
   const [focusedField, setFocusedField] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormState({ status: "submitting" });
-    setErrors({});
-
-    // 1. Validar en el cliente con Zod
-    const validation = formSchema.safeParse(formData);
-    
-    if (!validation.success) {
-      const fieldErrors: Record<string, string> = {};
-      validation.error.issues.forEach((issue) => {
-        if (issue.path[0]) {
-          fieldErrors[issue.path[0].toString()] = issue.message;
-        }
-      });
-      setErrors(fieldErrors);
-      setFormState({ status: "idle" });
-      return;
-    }
-
-    // 2. Enviar a la API
-    try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Error del servidor:", errorText); // Mira esto en la consola del navegador (F12)
-        throw new Error(`Error del servidor: ${response.status}`);
-      }
-      // ------------------
-
-      const data = await response.json();
-
-
-      setFormState({ status: "success" });
-      setFormData({ name: "", email: "", company: "", message: "" });
-      
-      // Resetear mensaje de éxito después de 5 segundos
-      setTimeout(() => setFormState({ status: "idle" }), 5000);
-
-    } catch (error) {
-      setFormState({ 
-        status: "error", 
-        errorMessage: error instanceof Error ? error.message : "Algo salió mal" 
-      });
-    }
-  };
-
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    // Limpiar error del campo cuando el usuario escribe
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-    }
-  };
 
   return (
     <motion.div
@@ -104,11 +21,26 @@ export const ContactForm = () => {
         <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-accent/20 to-secondary/20 rounded-3xl blur-2xl opacity-50" />
         
         <form
-          onSubmit={handleSubmit}
+          onSubmit={submitForm}
           className="relative p-8 md:p-10 rounded-2xl bg-gradient-card border border-border/50 backdrop-blur-sm"
         >
           <div className="absolute inset-0 rounded-2xl animated-border opacity-30" />
           
+          {/* --- HONEYPOT: Trampa para bots (Invisible) --- */}
+          <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
+            <label htmlFor="_gotcha">No llenes este campo si eres humano</label>
+            <input
+              type="text"
+              id="_gotcha"
+              name="_gotcha"
+              tabIndex={-1}
+              autoComplete="off"
+              value={formData._gotcha}
+              onChange={(e) => handleChange("_gotcha", e.target.value)}
+            />
+          </div>
+          {/* ----------------------------------------------- */}
+
           <div className="relative mb-8">
             <h3 className="font-sora text-2xl font-bold text-foreground mb-2">
               Envíanos un mensaje
@@ -118,8 +50,8 @@ export const ContactForm = () => {
             </p>
           </div>
           
-          {/* Mensajes de Éxito/Error UI en lugar de Toast */}
-          {formState.status === "success" && (
+          {/* Mensaje de Éxito */}
+          {status === "success" && (
             <motion.div 
               initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
               className="mb-6 p-4 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center gap-3 text-green-500"
@@ -129,13 +61,14 @@ export const ContactForm = () => {
             </motion.div>
           )}
 
-          {formState.status === "error" && (
+          {/* Mensaje de Error General */}
+          {status === "error" && (
             <motion.div 
               initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
               className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center gap-3 text-red-500"
             >
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
-              <span className="text-sm font-medium">{formState.errorMessage || "Hubo un error al enviar el mensaje."}</span>
+              <span className="text-sm font-medium">{errorMessage || "Hubo un error al enviar el mensaje."}</span>
             </motion.div>
           )}
 
@@ -203,7 +136,7 @@ export const ContactForm = () => {
             
             <motion.button
               type="submit"
-              disabled={formState.status === "submitting" || formState.status === "success"}
+              disabled={status === "submitting" || status === "success"}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="group relative w-full py-4 rounded-xl bg-gradient-primary text-primary-foreground font-inter font-semibold overflow-hidden transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -211,7 +144,7 @@ export const ContactForm = () => {
               <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
               <span className="relative flex items-center justify-center gap-2">
-                {formState.status === "submitting" ? (
+                {status === "submitting" ? (
                   <>
                     <motion.div
                       animate={{ rotate: 360 }}
@@ -238,8 +171,7 @@ export const ContactForm = () => {
               Responderemos a tu mensaje en menos de 24 horas hábiles.
             </p>
           </div>
-        </form> 
-            
+        </form>
       </div>
     </motion.div>
   );

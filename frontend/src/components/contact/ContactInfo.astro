@@ -1,0 +1,102 @@
+---
+import { Linkedin, Twitter, Github } from "lucide-react";
+
+const socialLinks = [
+  { icon: Linkedin, href: "#", label: "LinkedIn" },
+  { icon: Twitter, href: "#", label: "Twitter" },
+  { icon: Github, href: "#", label: "GitHub" },
+];
+
+const features = [
+  {
+    title: "Equipo Joven e Innovador",
+    description: "Pensamos diferente y aportamos ideas frescas.",
+    gradient: "from-primary to-accent",
+  },
+  {
+    title: "Metodologías Ágiles",
+    description: "Entregas incrementales y comunicación constante.",
+    gradient: "from-accent to-secondary",
+  },
+  {
+    title: "Tecnología de Vanguardia",
+    description: "Usamos las herramientas más modernas del mercado.",
+    gradient: "from-secondary to-primary",
+  },
+];
+---
+
+<div class="space-y-10 scroll-animate">
+  <div>
+    <h2 class="font-sora text-3xl md:text-4xl font-bold text-foreground mb-4">
+      ¿Por qué elegir <span class="text-gradient-primary">DiSa</span>?
+    </h2>
+    <p class="font-inter text-muted-foreground">
+      Somos más que una agencia digital. Somos tu socio estratégico en la transformación digital.
+    </p>
+  </div>
+  
+  <div class="space-y-4">
+    {features.map((feature, index) => (
+      <div 
+        class="group relative p-5 rounded-xl bg-gradient-card border border-border/50 hover:border-primary/30 transition-all duration-300 scroll-animate"
+        style={`transition-delay: ${index * 100}ms`}
+      >
+        <div class={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${feature.gradient} rounded-l-xl`} />
+        <h3 class="font-sora font-semibold text-foreground mb-1 pl-3">
+          {feature.title}
+        </h3>
+        <p class="text-sm text-muted-foreground pl-3">
+          {feature.description}
+        </p>
+      </div>
+    ))}
+  </div>
+
+  <div>
+    <h3 class="font-sora text-sm font-semibold text-foreground mb-4">
+      Síguenos en redes sociales
+    </h3>
+    <div class="flex gap-3">
+      {socialLinks.map((social, index) => (
+        <a
+          href={social.href}
+          aria-label={social.label}
+          class="group w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center text-muted-foreground hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 hover:-translate-y-1 scroll-animate"
+          style={`transition-delay: ${300 + (index * 100)}ms`}
+        >
+          <social.icon className="w-5 h-5" />
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Pequeño script para animar elementos cuando entran en pantalla
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target); // Solo animar una vez
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.scroll-animate').forEach((el) => observer.observe(el));
+</script>
+
+<style>
+  /* Estado inicial: invisible y desplazado */
+  .scroll-animate {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  /* Estado final: visible y en su lugar */
+  .scroll-animate.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>

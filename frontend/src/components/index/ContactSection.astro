@@ -1,200 +1,29 @@
 ---
-import { Send, Mail, MapPin, Phone } from "lucide-astro";
+// Importamos el mismo componente React que usamos en la página de contacto
+import { ContactForm } from "../../components/contact/ContactForm";
 ---
 
-<section class="relative py-24 bg-gradient-hero overflow-hidden" id="contact">
-  {/* Elementos de fondo */}
-  <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none"></div>
-  <div
-    class="absolute top-1/2 right-0 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-3xl -translate-y-1/2 pointer-events-none"
-  >
-  </div>
-  <div
-    class="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl pointer-events-none"
-  >
-  </div>
+<section class="py-24 relative overflow-hidden" id="contacto">
+  {/* Elementos de fondo decorativos (opcional, para mantener el estilo del index) */}
+  <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
-  <div class="relative container mx-auto px-6">
-    <div class="grid lg:grid-cols-2 gap-16 items-center">
-      {/* Columna Izquierda: Información de contacto */}
-      <div class="scroll-reveal">
-        <span
-          class="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary text-sm font-inter font-medium mb-4"
-        >
-          Contacto
-        </span>
-        <h2
-          class="font-orbitron text-3xl md:text-5xl font-bold text-foreground mb-6"
-        >
-          Construyamos algo{" "}
-          <span
-            class="text-gradient-primary bg-clip-text text-transparent bg-linear-to-r from-primary to-accent"
-            >increíble</span
-          > juntos
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-3xl mx-auto">
+      {/* Encabezado de la sección */}
+      <div class="text-center mb-16">
+        <h2 class="font-sora text-4xl md:text-5xl font-bold text-foreground mb-6">
+          Hablemos de tu <span class="text-gradient-primary">Siguiente Idea</span>
         </h2>
-        <p class="font-inter text-lg text-muted-foreground mb-10">
-          ¿Tienes una idea que quieres convertir en realidad? Cuéntanos sobre tu
-          proyecto y exploremos cómo podemos ayudarte.
+        <p class="font-inter text-xl text-muted-foreground">
+          Ya sea que tengas un proyecto definido o solo una idea vaga, estamos aquí para ayudarte a concretarla.
         </p>
-
-        <div class="space-y-6">
-          <div class="flex items-center gap-4">
-            <div
-              class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"
-            >
-              <Mail class="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <p class="text-sm text-muted-foreground">Email</p>
-              <p class="font-inter font-medium text-foreground">
-                hola@disa.tech
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div
-              class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"
-            >
-              <Phone class="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <p class="text-sm text-muted-foreground">Teléfono</p>
-              <p class="font-inter font-medium text-foreground">
-                +52 55 1234 5678
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div
-              class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"
-            >
-              <MapPin class="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <p class="text-sm text-muted-foreground">Ubicación</p>
-              <p class="font-inter font-medium text-foreground">
-                Ciudad de México, México
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Columna Derecha: Formulario */}
-      {/* Añadimos delay-200 para que aparezca después del texto */}
-      <div class="scroll-reveal delay-200">
-        <form
-          id="contact-form"
-          class="relative p-8 rounded-2xl bg-card border border-border/50 shadow-2xl"
-        >
-          <div
-            class="absolute inset-0 rounded-2xl border border-primary/20 pointer-events-none"
-          >
-          </div>
-
-          <div class="relative space-y-6">
-            <div>
-              <label
-                class="block text-sm font-inter font-medium text-foreground mb-2"
-              >
-                Nombre
-              </label>
-              <input
-                type="text"
-                name="name"
-                required
-                class="w-full px-4 py-3 rounded-xl bg-muted/50 border border-border/50 text-foreground font-inter placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
-                placeholder="Tu nombre"
-              />
-            </div>
-            <div>
-              <label
-                class="block text-sm font-inter font-medium text-foreground mb-2"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                required
-                class="w-full px-4 py-3 rounded-xl bg-muted/50 border border-border/50 text-foreground font-inter placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
-                placeholder="tu@email.com"
-              />
-            </div>
-            <div>
-              <label
-                class="block text-sm font-inter font-medium text-foreground mb-2"
-              >
-                Mensaje
-              </label>
-              <textarea
-                name="message"
-                required
-                rows="4"
-                class="w-full px-4 py-3 rounded-xl bg-muted/50 border border-border/50 text-foreground font-inter placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all resize-none"
-                placeholder="Cuéntanos sobre tu proyecto..."></textarea>
-            </div>
-            <button
-              type="submit"
-              class="w-full py-4 rounded-xl bg-linear-to-r from-primary to-accent text-white font-inter font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/25"
-            >
-              Enviar mensaje
-              <Send class="w-4 h-4" />
-            </button>
-          </div>
-        </form>
+      <div class="mx-auto">
+        <ContactForm client:visible />
       </div>
-    </div>
-  </div>
 
-  {/* Notificación Toast (sin cambios visuales) */}
-  <div
-    id="toast"
-    class="fixed bottom-5 right-5 bg-background border border-border px-6 py-4 rounded-xl shadow-2xl translate-y-24 opacity-0 transition-all duration-500 z-50 flex items-center gap-3"
-  >
-    <div
-      class="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center text-green-500"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        ><polyline points="20 6 9 17 4 12"></polyline></svg
-      >
-    </div>
-    <div>
-      <h4 class="font-bold text-sm">¡Mensaje enviado!</h4>
-      <p class="text-xs text-muted-foreground">
-        Nos pondremos en contacto pronto.
-      </p>
     </div>
   </div>
 </section>
-
-<script>
-  // Lógica exclusiva para el manejo del formulario y el toast.
-  // La animación de entrada (fade-in) ahora la maneja el script global.
-  document.addEventListener("astro:page-load", () => {
-    const form = document.getElementById("contact-form") as HTMLFormElement;
-    const toast = document.getElementById("toast");
-
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        if (toast) {
-          toast.classList.remove("translate-y-24", "opacity-0");
-          setTimeout(() => {
-            toast.classList.add("translate-y-24", "opacity-0");
-          }, 3000);
-        }
-        form.reset();
-      });
-    }
-  });
-</script>

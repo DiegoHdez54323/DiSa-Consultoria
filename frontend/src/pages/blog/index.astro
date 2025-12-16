@@ -30,7 +30,11 @@ const categories = allCategories.map((cat) => ({
 }));
 ---
 
-<BaseLayout title="Blog | DiSa Consultoría">
+<BaseLayout
+  title="Blog | DiSa Consultoría - Artículos y Noticias de Tecnología"
+  description="Mantente informado con nuestros últimos artículos sobre desarrollo de software, tendencias tecnológicas, y transformación digital."
+  canonicalURL={new URL("/blog", Astro.site)}
+>
   <BlogListing
     client:load
     scope="all"

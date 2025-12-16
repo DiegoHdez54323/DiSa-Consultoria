@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
 
 import sanity from "@sanity/astro";
 
@@ -11,16 +12,17 @@ import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://disa-consultoria.vercel.app", // TODO: Replace with your actual domain
   output: "static",
 
   adapter: vercel(),
-
 
   vite: {
     plugins: [tailwindcss()],
   },
 
   integrations: [
+    sitemap(),
     sanity({
       projectId: "tyjgqdg3",
       dataset: "production",

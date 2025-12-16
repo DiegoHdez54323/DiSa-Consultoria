@@ -75,7 +75,12 @@ const {
 } = Astro.props as PageProps;
 ---
 
-<BaseLayout title={`Blog | DiSa Consultoría`}>
+<BaseLayout
+  title={`Blog - Página ${page} | DiSa Consultoría`}
+  description={`Explora nuestros artículos - Página ${page}`}
+  canonicalURL={new URL(`/blog/page/${page}`, Astro.site)}
+  noindex={true}
+>
   <BlogListing
     client:load
     scope="all"

@@ -2,20 +2,46 @@
 import "../styles/global.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer.astro";
+import SEO from "../components/SEO.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  noindex?: boolean;
+  nofollow?: boolean;
+  canonicalURL?: string | URL;
+  ogType?: "website" | "article" | "profile" | "book";
+  schema?: object;
+}
 
 const {
   title = "DiSa Software - Consultoría de Software",
   description = "Consultoría de software, automatización y soluciones digitales a la medida.",
+  image,
+  article,
+  noindex,
+  nofollow,
+  canonicalURL,
+  ogType,
+  schema,
 } = Astro.props;
 ---
 
 <html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width-device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <!-- Aquí podrías agregar más meta tags, favicon, etc. -->
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      article={article}
+      noindex={noindex}
+      nofollow={nofollow}
+      canonicalURL={canonicalURL}
+      ogType={ogType}
+      schema={schema}
+    />
   </head>
   <body
     class="min-h-screen flex flex-col bg-background text-foreground antialiased"

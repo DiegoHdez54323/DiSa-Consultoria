@@ -50,11 +50,11 @@ export const PortfolioHero = () => {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="mb-6"
             >
-              <h1 className="font-sora text-5xl md:text-7xl lg:text-8xl font-bold text-foreground leading-tight">
+              <h1 className="font-sora text-4xl md:text-7xl lg:text-8xl font-bold text-foreground leading-tight">
                 Proyectos que
               </h1>
               <div className="relative inline-block mt-2">
-                <span className="font-sora text-5xl md:text-7xl lg:text-8xl font-bold text-gradient-secondary">
+                <span className="font-sora text-4xl md:text-7xl lg:text-8xl font-bold text-gradient-secondary">
                   Inspiran
                 </span>
                 <motion.div
@@ -70,7 +70,7 @@ export const PortfolioHero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="font-inter text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto"
+              className="font-inter text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto"
             >
               Ideas disruptivas convertidas en soluciones reales. 
               Cada proyecto cuenta una historia de innovación.
@@ -81,7 +81,7 @@ export const PortfolioHero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex justify-center gap-12 mt-12"
+              className="flex flex-wrap justify-center gap-6 md:gap-12 mt-12"
             >
               {[
                 { value: "50+", label: "Proyectos" },

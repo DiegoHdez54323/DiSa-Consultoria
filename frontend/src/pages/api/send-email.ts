@@ -23,11 +23,9 @@ export const POST: APIRoute = async ({ request }) => {
     //Validacion de origen
     const origin = request.headers.get("origin")
 
-    const allowedOrigins = [
-        "http://localhost:4321", //Entorno local
-        "https://disa-consultoria.vercel.app/", //Entorno vercel
-        //Entorno dominio
-    ]
+    const allowedOrigins = import.meta.env.ALLOWED_ORIGINS 
+      ? import.meta.env.ALLOWED_ORIGINS.split(",").map((url: string) => url.trim())
+      : ["http://localhost:4321"];
 
     if (origin && !allowedOrigins.includes(origin)) {
         return new Response(JSON.stringify({ error: "Forbidden" }), {status: 403});

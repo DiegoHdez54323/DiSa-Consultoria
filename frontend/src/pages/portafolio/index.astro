@@ -15,6 +15,7 @@ const projects: PortfolioProject[] = await getAllPortfolioProjects();
 <BaseLayout
   title="Portafolio | DiSa Consultoría"
   description="Explora nuestros casos de éxito en desarrollo web, apps móviles y soluciones empresariales."
+  canonicalURL={new URL("/portafolio", Astro.site)}
 >
   <main class="min-h-screen bg-background overflow-hidden">
     {/* 1. Hero con Animaciones Complejas (React Client Load) */}
@@ -29,6 +30,8 @@ const projects: PortfolioProject[] = await getAllPortfolioProjects();
     }
     <CTASection />
 
-    <Footer />
+    {
+      /* Footer eliminado para evitar duplicación ya que BaseLayout lo incluye */
+    }
   </main>
 </BaseLayout>

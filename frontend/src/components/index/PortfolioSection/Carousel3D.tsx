@@ -80,7 +80,7 @@ export const Carousel3D = ({
     <div className="relative w-full">
       {/* Carousel Container */}
       <div
-        className="relative h-[500px] md:h-[580px] overflow-visible"
+        className="relative h-[500px] md:h-[580px] overflow-hidden"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}

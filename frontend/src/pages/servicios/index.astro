@@ -20,6 +20,7 @@ const allServices: Service[] = await getAllServices();
 <BaseLayout
   title="Servicios | DiSa Consultoría"
   description="Soluciones tecnológicas a medida: Desarrollo Web, Cloud, IA y Consultoría."
+  canonicalURL={new URL("/servicios", Astro.site)}
 >
   <main class="min-h-screen bg-background overflow-hidden">
     <ServicesHero />

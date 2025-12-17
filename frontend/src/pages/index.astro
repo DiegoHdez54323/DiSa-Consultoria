@@ -15,9 +15,29 @@ const portfolioProjects = await getAllPortfolioProjects();
 
 import { getLatestBlogPosts } from "../services/blogService";
 const latestBlogPosts = await getLatestBlogPosts();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "DiSa Consultoría",
+  url: "https://disaconsultoria.com",
+  logo: "https://disaconsultoria.com/favicon.svg",
+  description:
+    "Expertos en desarrollo de software, aplicaciones web, móviles y consultoría tecnológica.",
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "MX",
+  },
+};
 ---
 
-<BaseLayout>
+<BaseLayout
+  title="DiSa Consultoría | Desarrollo de Software y Transformación Digital"
+  description="Expertos en desarrollo de software, aplicaciones web, móviles y consultoría tecnológica. Transformamos tu negocio con soluciones digitales a medida."
+  canonicalURL={new URL("/", Astro.site)}
+  ogType="website"
+  schema={schema}
+>
   <HeroSection client:load />
   <ServicesSection services={allServices} />
   <PortfolioSection projects={portfolioProjects} />

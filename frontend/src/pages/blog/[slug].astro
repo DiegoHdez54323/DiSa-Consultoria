@@ -57,9 +57,30 @@ const publishedAtLabel = formatBlogDate(post.publishedAt);
 const readTimeLabel = post.readTime
   ? `${formatBlogReadTime(post.readTime)} lectura`
   : undefined;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  description: post.excerpt,
+  image: heroImageUrl ? [heroImageUrl] : [],
+  datePublished: post.publishedAt,
+  author: {
+    "@type": "Person",
+    name: post.author.name,
+  },
+};
 ---
 
-<BaseLayout title={`${post.title} | DiSa Consultoría`}>
+<BaseLayout
+  title={`${post.title} | DiSa Consultoría`}
+  description={post.excerpt}
+  image={heroImageUrl}
+  article={true}
+  canonicalURL={new URL(`/blog/${post.slug}`, Astro.site)}
+  ogType="article"
+  schema={schema}
+>
   <main class="min-h-screen bg-background">
     <ReadingProgress />
 

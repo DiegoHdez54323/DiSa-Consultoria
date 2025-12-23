@@ -88,7 +88,7 @@ export const blogPost = defineType({
           to: [{type: 'blogCategory'}],
         },
       ],
-      validation: (Rule) => Rule.min(1).error('Selecciona al menos una categoría.'),
+      validation: (Rule) => Rule.min(1).max(1),
     }),
 
     defineField({

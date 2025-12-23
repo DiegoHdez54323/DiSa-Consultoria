@@ -29,7 +29,7 @@ export const blogPost = defineType({
       type: 'text',
       rows: 3,
       description: 'Resumen corto que se usará en tarjetas y listados de blog.',
-      validation: (Rule) => Rule.required().min(20).max(300),
+      validation: (Rule) => Rule.required().min(20).max(500),
     }),
 
     defineField({

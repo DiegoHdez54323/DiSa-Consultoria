@@ -431,6 +431,15 @@ html {
   background: hsl(185 100% 50% / 0.5);
 }
 
+.blog-categories-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.blog-categories-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 .portable-content h1 {
   font-size: 2.4rem;
   font-weight: 700;

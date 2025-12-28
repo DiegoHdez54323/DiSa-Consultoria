@@ -1,10 +1,14 @@
 ---
-import { Linkedin, Twitter, Github } from "lucide-react";
+import { Linkedin, Twitter, Github, Instagram } from "lucide-react";
+import { company } from "../../config/company"; // Importamos la config
 
+// Mapeamos las redes sociales desde tu archivo company.ts
 const socialLinks = [
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Github, href: "#", label: "GitHub" },
+  { icon: Linkedin, href: company.social.linkedin, label: "LinkedIn" },
+  { icon: Twitter, href: company.social.twitter, label: "Twitter" },
+  { icon: Github, href: company.social.github, label: "GitHub" },
+  // Puedes agregar Instagram si lo deseas mostrar aquí también
+  { icon: Instagram, href: company.social.instagram, label: "Instagram" },
 ];
 
 const features = [
@@ -29,10 +33,11 @@ const features = [
 <div class="space-y-10 scroll-animate">
   <div>
     <h2 class="font-sora text-3xl md:text-4xl font-bold text-foreground mb-4">
-      ¿Por qué elegir <span class="text-gradient-primary">DiSa</span>?
+      ¿Por qué elegir <span class="text-gradient-primary">{company.shortName}</span>?
     </h2>
     <p class="font-inter text-muted-foreground">
-      Somos más que una agencia digital. Somos tu socio estratégico en la transformación digital.
+      Somos más que una agencia digital.
+      Somos tu socio estratégico en la transformación digital.
     </p>
   </div>
   
@@ -62,6 +67,8 @@ const features = [
         <a
           href={social.href}
           aria-label={social.label}
+          target="_blank"
+          rel="noopener noreferrer"
           class="group w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center text-muted-foreground hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 hover:-translate-y-1 scroll-animate"
           style={`transition-delay: ${300 + (index * 100)}ms`}
         >
@@ -73,12 +80,11 @@ const features = [
 </div>
 
 <script>
-  // Pequeño script para animar elementos cuando entran en pantalla
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('show');
-        observer.unobserve(entry.target); // Solo animar una vez
+        observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1 });
@@ -87,14 +93,12 @@ const features = [
 </script>
 
 <style>
-  /* Estado inicial: invisible y desplazado */
   .scroll-animate {
     opacity: 0;
     transform: translateX(-30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
 
-  /* Estado final: visible y en su lugar */
   .scroll-animate.show {
     opacity: 1;
     transform: translateX(0);

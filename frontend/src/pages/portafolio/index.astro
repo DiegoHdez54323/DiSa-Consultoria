@@ -10,6 +10,9 @@ import { getAllPortfolioProjects } from "../../services/portfolioService";
 import type { PortfolioProject } from "../../sanity/types/portfolio";
 
 const projects: PortfolioProject[] = await getAllPortfolioProjects();
+
+// Contador de proyectos
+const totalProjects = projects.length;
 ---
 
 <BaseLayout
@@ -18,20 +21,11 @@ const projects: PortfolioProject[] = await getAllPortfolioProjects();
   canonicalURL={new URL("/portafolio", Astro.site)}
 >
   <main class="min-h-screen bg-background overflow-hidden">
-    {/* 1. Hero con Animaciones Complejas (React Client Load) */}
-    <PortfolioHero client:load />
+    <PortfolioHero client:load projectCount={totalProjects} />
 
-    {/* 2. Grid de Proyectos con Filtros (React Client Visible) */}
-    {/* Pasamos los proyectos cargados desde Sanity */}
-    <PortfolioFeed client:visible projects={projects} />
+    <PortfolioFeed client:visible projects={projects}/>
 
-    {
-      /* 3. CTA (Static Astro o React según prefieras, aquí reutilizamos el de servicios) */
-    }
     <CTASection />
 
-    {
-      /* Footer eliminado para evitar duplicación ya que BaseLayout lo incluye */
-    }
   </main>
 </BaseLayout>

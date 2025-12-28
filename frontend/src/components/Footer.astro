@@ -1,30 +1,32 @@
 ---
 import { Github, Linkedin, Twitter, Instagram } from "lucide-astro";
+import { company } from "../config/company"; // Importamos la config
 
+// Links usando las rutas definidas en company.ts
 const footerLinks = {
   servicios: [
-    { label: "Desarrollo a Medida", href: "/servicios" },
-    { label: "Integraciones & APIs", href: "/servicios" },
-    { label: "Consultoría", href: "/servicios" },
-    { label: "Cloud & DevOps", href: "/servicios" },
+    { label: "Desarrollo a Medida", href: company.routes.services },
+    { label: "Integraciones & APIs", href: company.routes.services },
+    { label: "Consultoría", href: company.routes.services },
+    { label: "Cloud & DevOps", href: company.routes.services },
   ],
   empresa: [
-    { label: "Nosotros", href: "/nosotros" },
-    { label: "Portafolio", href: "/portafolio" },
-    { label: "Blog", href: "/blog" },
-    { label: "Contacto", href: "/contacto" },
+    { label: "Nosotros", href: "/nosotros" }, // Si no tienes ruta 'about' en config, usa hardcode o agrégala
+    { label: "Portafolio", href: company.routes.portfolio },
+    { label: "Blog", href: company.routes.blog },
+    { label: "Contacto", href: company.routes.contact },
   ],
   legal: [
-    { label: "Privacidad", href: "/privacidad" },
-    { label: "Términos", href: "/terminos" },
+    { label: "Privacidad", href: company.routes.privacy },
+    { label: "Términos", href: company.routes.terms },
   ],
 };
 
 const socialLinks = [
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
+  { icon: Github, href: company.social.github, label: "GitHub" },
+  { icon: Linkedin, href: company.social.linkedin, label: "LinkedIn" },
+  { icon: Twitter, href: company.social.twitter, label: "Twitter" },
+  { icon: Instagram, href: company.social.instagram, label: "Instagram" },
 ];
 
 const year = new Date().getFullYear();
@@ -43,12 +45,11 @@ const year = new Date().getFullYear();
       <div class="lg:col-span-2">
         <a href="/" class="inline-block mb-6">
           <span class="font-orbitron text-2xl font-bold text-gradient-primary">
-            DiSa
+            {company.shortName}
           </span>
         </a>
         <p class="font-inter text-muted-foreground mb-6 max-w-sm">
-          Diseñamos el software que impulsa tu próxima evolución. Somos jóvenes,
-          ágiles e innovadores.
+          {company.description}
         </p>
 
         {/* Social Links */}
@@ -56,9 +57,10 @@ const year = new Date().getFullYear();
           {
             socialLinks.map((social) => (
               <a
-           
                 href={social.href}
                 aria-label={social.label}
+                target="_blank"
+                rel="noopener noreferrer"
                 class="w-10 h-10 rounded-lg bg-muted/50 flex items-center justify-center text-muted-foreground hover:bg-primary/20 hover:text-primary transition-all"
               >
                 <social.icon className="w-5 h-5" />
@@ -76,7 +78,7 @@ const year = new Date().getFullYear();
         <ul class="space-y-3">
           {
             footerLinks.servicios.map((link) => (
-              <li >
+              <li>
                 <a
                   href={link.href}
                   class="font-inter text-sm text-muted-foreground hover:text-primary transition-colors"
@@ -97,7 +99,7 @@ const year = new Date().getFullYear();
         <ul class="space-y-3">
           {
             footerLinks.empresa.map((link) => (
-              <li }>
+              <li>
                 <a
                   href={link.href}
                   class="font-inter text-sm text-muted-foreground hover:text-primary transition-colors"
@@ -118,7 +120,7 @@ const year = new Date().getFullYear();
         <ul class="space-y-3">
           {
             footerLinks.legal.map((link) => (
-              <li >
+              <li>
                 <a
                   href={link.href}
                   class="font-inter text-sm text-muted-foreground hover:text-primary transition-colors"
@@ -137,7 +139,7 @@ const year = new Date().getFullYear();
       class="mt-16 pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4"
     >
       <p class="font-inter text-sm text-muted-foreground">
-        © {year} DiSa. Todos los derechos reservados.
+        © {year} {company.name}. Todos los derechos reservados.
       </p>
       <p class="font-inter text-sm text-muted-foreground">
         Diseñado con <span class="text-primary">♥</span> en México

@@ -1,7 +1,35 @@
-import { motion } from "framer-motion";
+import { motion, useInView, animate } from "framer-motion";
 import { Sparkles } from "lucide-react";
+import { useEffect, useRef } from "react";
 
-export const PortfolioHero = () => {
+// Componente para animar el número (Contador)
+const Counter = ({ from, to }: { from: number; to: number }) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(nodeRef, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    if (isInView && nodeRef.current) {
+      const controls = animate(from, to, {
+        duration: 2.5,
+        ease: "easeOut",
+        onUpdate(value) {
+          if (nodeRef.current) {
+            nodeRef.current.textContent = value.toFixed(0);
+          }
+        },
+      });
+      return () => controls.stop();
+    }
+  }, [from, to, isInView]);
+
+  return <span ref={nodeRef} />;
+};
+
+interface PortfolioHeroProps {
+  projectCount?: number; // Prop opcional para recibir el total
+}
+
+export const PortfolioHero = ({ projectCount = 50 }: PortfolioHeroProps) => {
   return (
     <section className="relative pt-32 pb-20 overflow-hidden">
         {/* Animated background */}
@@ -83,11 +111,25 @@ export const PortfolioHero = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="flex flex-wrap justify-center gap-6 md:gap-12 mt-12"
             >
+              {/* Stat 1: Proyectos (Dinámico con Contador) */}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="text-center"
+              >
+                <div className="font-sora text-4xl md:text-5xl font-bold text-gradient-primary flex items-center justify-center">
+                  <Counter from={0} to={projectCount} />
+                  <span>+</span>
+                </div>
+                <div className="font-inter text-sm text-muted-foreground mt-1">
+                  Proyectos
+                </div>
+              </motion.div>
+
+              {/* Stat 2 & 3: Clientes y Satisfacción (Estáticos) */}
               {[
-                { value: "50+", label: "Proyectos" },
-                { value: "30+", label: "Clientes" },
-                { value: "98%", label: "Satisfacción" },
-              ].map((stat, i) => (
+                { value: "4+", label: "Clientes" },
+                { value: "100%", label: "Satisfacción" },
+              ].map((stat) => (
                 <motion.div
                   key={stat.label}
                   whileHover={{ scale: 1.05 }}

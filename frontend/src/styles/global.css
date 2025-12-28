@@ -459,9 +459,30 @@ html {
   margin: 1rem 0 0.5rem;
 }
 
+.portable-content h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0.75rem 0 0.5rem;
+}
+
 .portable-content p {
   margin: 0.75rem 0;
   line-height: 1.7;
+}
+
+.portable-content a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary));
+  text-underline-offset: 0.2em;
+}
+
+.portable-content strong {
+  font-weight: 700;
+}
+
+.portable-content em {
+  font-style: italic;
 }
 
 /* Listas */

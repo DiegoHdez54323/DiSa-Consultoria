@@ -22,7 +22,10 @@ const {
 ---
 
 <!-- Hero Section -->
-<section id="hero" class="relative h-[70vh] min-h-[500px] overflow-hidden">
+<section
+  id="hero"
+  class="relative h-auto md:h-[70vh] min-h-[380px] sm:min-h-[440px] lg:min-h-[500px] overflow-hidden"
+>
   <!-- Parallax Image -->
   {
     heroImageUrl && (
@@ -76,9 +79,7 @@ const {
         </div>
 
         <!-- Title -->
-        <h1
-          class="font-sora text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6"
-        >
+        <h1 class="font-sora text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
           {post.title}
         </h1>
 
@@ -112,12 +113,12 @@ const {
             </div>
           </div>
 
-          <div class="h-8 w-px bg-border/50"></div>
+          <div class="hidden sm:block h-8 w-px bg-border/50"></div>
 
           <!-- Date -->
           <div class="flex items-center gap-2 text-muted-foreground">
             <Calendar class="w-4 h-4" />
-            <span class="font-inter text-sm">
+            <span class="font-inter text-base sm:text-lg">
               {publishedAtLabel}
             </span>
           </div>
@@ -127,7 +128,9 @@ const {
             readTimeLabel && (
               <div class="flex items-center gap-2 text-muted-foreground">
                 <Clock class="w-4 h-4" />
-                <span class="font-inter text-sm">{readTimeLabel}</span>
+                <span class="font-inter text-base sm:text-lg">
+                  {readTimeLabel}
+                </span>
               </div>
             )
           }

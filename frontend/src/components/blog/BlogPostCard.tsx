@@ -54,12 +54,12 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
               {post.excerpt}
             </p>
 
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <div className="flex flex-col flex-wrap items-start gap-2 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-2">
                 <User className="w-3 h-3" />
                 <span>{post.author.name}</span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
                 <span>{formatDate(post.publishedAt)}</span>
                 {post.readTime && (
                   <div className="flex items-center gap-1">

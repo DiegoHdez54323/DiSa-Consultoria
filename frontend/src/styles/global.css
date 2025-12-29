@@ -441,28 +441,28 @@ html {
 }
 
 .portable-content h1 {
-  font-size: 2.4rem;
+  font-size: clamp(1.8rem, 3vw + 1rem, 2.4rem);
   font-weight: 700;
-  margin: 1.5rem 0 1rem;
+  margin: clamp(1rem, 2.5vw, 1.5rem) 0 clamp(0.75rem, 2vw, 1rem);
 }
 
 .portable-content h2 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2.4vw + 0.9rem, 2rem);
   font-weight: 600;
-  margin: 1.25rem 0 0.75rem;
+  margin: clamp(0.9rem, 2.2vw, 1.25rem) 0 clamp(0.6rem, 1.8vw, 0.75rem);
   scroll-margin-top: 6rem;
 }
 
 .portable-content h3 {
-  font-size: 1.6rem;
+  font-size: clamp(1.3rem, 2vw + 0.7rem, 1.6rem);
   font-weight: 600;
-  margin: 1rem 0 0.5rem;
+  margin: clamp(0.8rem, 1.8vw, 1rem) 0 clamp(0.5rem, 1.4vw, 0.6rem);
 }
 
 .portable-content h4 {
-  font-size: 1.2rem;
+  font-size: clamp(1.1rem, 1.4vw + 0.6rem, 1.2rem);
   font-weight: 600;
-  margin: 0.75rem 0 0.5rem;
+  margin: clamp(0.6rem, 1.5vw, 0.75rem) 0 clamp(0.45rem, 1.2vw, 0.5rem);
 }
 
 .portable-content p {

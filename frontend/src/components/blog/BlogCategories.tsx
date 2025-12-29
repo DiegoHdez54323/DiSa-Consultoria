@@ -33,13 +33,13 @@ const BlogCategories: React.FC<BlogCategoriesProps> = ({
             type="button"
             onClick={() => handleScroll("left")}
             aria-label="Ver categorías anteriores"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/70 text-lg text-foreground shadow-sm transition hover:bg-muted/60"
+            className="hidden h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/70 text-lg text-foreground shadow-sm transition hover:bg-muted/60 sm:flex"
           >
             ‹
           </button>
           <div
             ref={scrollContainerRef}
-            className="blog-categories-scroll grid flex-1 grid-flow-col auto-cols-max grid-rows-2 justify-start gap-3 overflow-x-auto whitespace-nowrap pb-2"
+            className="blog-categories-scroll grid flex-1 grid-flow-col auto-cols-max grid-rows-1 justify-start gap-3 overflow-x-auto whitespace-nowrap pb-2 -mx-6 px-6 sm:grid-rows-2 sm:mx-0 sm:px-0"
           >
             {/* "Todos" */}
             <a
@@ -76,7 +76,7 @@ const BlogCategories: React.FC<BlogCategoriesProps> = ({
             type="button"
             onClick={() => handleScroll("right")}
             aria-label="Ver más categorías"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/70 text-lg text-foreground shadow-sm transition hover:bg-muted/60"
+            className="hidden h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/70 text-lg text-foreground shadow-sm transition hover:bg-muted/60 sm:flex"
           >
             ›
           </button>

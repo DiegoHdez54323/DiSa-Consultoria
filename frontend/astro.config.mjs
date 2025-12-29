@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
+import svgr from "vite-plugin-svgr";
 import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
 
 import sanity from "@sanity/astro";
@@ -18,7 +19,7 @@ export default defineConfig({
   adapter: vercel(),
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), svgr()],
   },
 
   integrations: [

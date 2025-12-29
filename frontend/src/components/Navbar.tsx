@@ -7,6 +7,7 @@ import {
   useSpring,
 } from "framer-motion";
 import { Menu, X, Sparkles } from "lucide-react";
+import DisaFullLogo from "../assets/DisaFullLogo.svg?react";
 
 const navLinks = [
   { href: "/", label: "Inicio" },
@@ -135,38 +136,7 @@ const Navbar = () => {
 
             {/* Logo Container */}
             <div className="relative flex items-center gap-2">
-              <motion.div
-                className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center relative overflow-hidden"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-              >
-                <Sparkles className="w-5 h-5 text-primary-foreground relative z-10" />
-                <motion.div
-                  className="absolute inset-0 bg-linear-to-r from-primary via-secondary to-primary"
-                  animate={{ x: ["-100%", "100%"] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  style={{ opacity: 0.5 }}
-                />
-              </motion.div>
-
-              <div className="flex flex-col">
-                <motion.span
-                  className="font-orbitron text-xl font-bold text-gradient-primary leading-none"
-                  animate={{
-                    textShadow: [
-                      "0 0 10px hsl(var(--primary) / 0.5)",
-                      "0 0 20px hsl(var(--primary) / 0.8)",
-                      "0 0 10px hsl(var(--primary) / 0.5)",
-                    ],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  DiSa
-                </motion.span>
-                <span className="text-[10px] text-muted-foreground font-inter tracking-wider">
-                  SOFTWARE
-                </span>
-              </div>
+              <DisaFullLogo className="h-8 w-auto md:h-10 lg:h-12" />
             </div>
           </motion.div>
         </a>

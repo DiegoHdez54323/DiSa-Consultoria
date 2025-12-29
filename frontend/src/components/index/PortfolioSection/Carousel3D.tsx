@@ -149,14 +149,15 @@ export const Carousel3D = ({
       {/* Navigation Arrows */}
       <button
         onClick={prev}
-        className="cursor-pointer absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-card/80 border border-border/50 backdrop-blur-sm hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group"
+        className="hidden md:flex cursor-pointer absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-card/80 border border-border/50 backdrop-blur-sm hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group"
         aria-label="Anterior"
       >
         <ChevronLeft className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
       </button>
+
       <button
         onClick={next}
-        className="cursor-pointer absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-card/80 border border-border/50 backdrop-blur-sm hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group"
+        className="hidden md:flex cursor-pointer absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-card/80 border border-border/50 backdrop-blur-sm hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group"
         aria-label="Siguiente"
       >
         <ChevronRight className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />

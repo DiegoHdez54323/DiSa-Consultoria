@@ -13,7 +13,7 @@ import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://disa-consultoria.vercel.app",
+  site: "https://disasoftware.com.mx",
   output: "static",
 
   adapter: vercel(),
@@ -30,7 +30,7 @@ export default defineConfig({
       lastmod: new Date(),
       serialize: (item) => {
         if (
-          item.url === "https://disa-consultoria.vercel.app/" ||
+          item.url === "https://disasoftware.com.mx/" ||
           item.url.includes("/blog/")
         ) {
           item.priority = 1.0;

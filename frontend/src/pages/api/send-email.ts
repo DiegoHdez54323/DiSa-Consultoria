@@ -1,9 +1,12 @@
 export const prerender = false;
 
 import { jsonPath } from "@sanity/client/csm";
+import { company } from "../../config/company";
 import type { APIRoute } from "astro";
 import { Resend } from "resend";
 import { z } from "zod";
+
+const companyEmail = company.contact.email;
 
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
@@ -21,43 +24,52 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json();
 
     //Validacion de origen
-    const origin = request.headers.get("origin")
+    const origin = request.headers.get("origin");
 
-    const allowedOrigins = import.meta.env.ALLOWED_ORIGINS 
-      ? import.meta.env.ALLOWED_ORIGINS.split(",").map((url: string) => url.trim())
+    const allowedOrigins = import.meta.env.ALLOWED_ORIGINS
+      ? import.meta.env.ALLOWED_ORIGINS.split(",").map((url: string) =>
+          url.trim()
+        )
       : ["http://localhost:4321"];
 
     if (origin && !allowedOrigins.includes(origin)) {
-        return new Response(JSON.stringify({ error: "Forbidden" }), {status: 403});
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403,
+      });
     }
-    
+
     // Validar datos con Zod
     const result = contactSchema.safeParse(body);
 
     if (body._gotcha) {
-        console.warn("Bot bloqueado")
-        return new Response(JSON.stringify({ message: "Mensaje enviado" }), { status: 200})
+      console.warn("Bot bloqueado");
+      return new Response(JSON.stringify({ message: "Mensaje enviado" }), {
+        status: 200,
+      });
     }
-    
+
     if (!result.success) {
-      return new Response(JSON.stringify({ 
-        error: "Datos inválidos", 
-        details: result.error.format() 
-      }), { status: 400 });
+      return new Response(
+        JSON.stringify({
+          error: "Datos inválidos",
+          details: result.error.format(),
+        }),
+        { status: 400 }
+      );
     }
 
     const { name, email, company, message } = result.data;
 
     // Enviar correo con Resend
     const data = await resend.emails.send({
-      from: 'Contact Form <onboarding@resend.dev>', 
-      to: ['diazalexda2@gmail.com'], 
-      subject: `Nuevo mensaje de ${name} ${company ? `- ${company}` : ''}`,
+      from: "Contact Form <onboarding@resend.dev>",
+      to: [companyEmail],
+      subject: `Nuevo mensaje de ${name} ${company ? `- ${company}` : ""}`,
       html: `
         <h1>Nuevo Contacto desde la Web</h1>
         <p><strong>Nombre:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Empresa:</strong> ${company || 'N/A'}</p>
+        <p><strong>Empresa:</strong> ${company || "N/A"}</p>
         <p><strong>Mensaje:</strong></p>
         <p>${message}</p>
       `,
@@ -65,12 +77,21 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     if (data.error) {
-      return new Response(JSON.stringify({ error: data.error }), { status: 500 });
+      return new Response(JSON.stringify({ error: data.error }), {
+        status: 500,
+      });
     }
 
-    return new Response(JSON.stringify({ message: "Nos pondremos en contacto en las proximas 24h." }), { status: 200 });
-
+    return new Response(
+      JSON.stringify({
+        message: "Nos pondremos en contacto en las proximas 24h.",
+      }),
+      { status: 200 }
+    );
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Error interno del servidor" }), { status: 500 });
+    return new Response(
+      JSON.stringify({ error: "Error interno del servidor" }),
+      { status: 500 }
+    );
   }
 };

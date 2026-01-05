@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Phone, Sparkles } from "lucide-react";
+import { ArrowRight, Phone, Sparkles } from "lucide-astro";
 
 const badges = [
   "Diagnóstico DiSa",
@@ -12,18 +12,22 @@ const badges = [
   <div class="container mx-auto px-6">
     <div class="max-w-4xl mx-auto text-center mb-20 animate-slide-up">
       <div class="flex flex-wrap justify-center gap-3 mb-8">
-        {badges.map((badge, index) => (
-          <span
-            class="px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium flex items-center gap-2 animate-scale-in"
-            style={`animation-delay: ${0.1 + index * 0.1}s;`}
-          >
-            <Sparkles className="w-3 h-3" />
-            {badge}
-          </span>
-        ))}
+        {
+          badges.map((badge, index) => (
+            <span
+              class="px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium flex items-center gap-2 animate-scale-in"
+              style={`animation-delay: ${0.1 + index * 0.1}s;`}
+            >
+              <Sparkles className="w-3 h-3" />
+              {badge}
+            </span>
+          ))
+        }
       </div>
 
-      <h1 class="font-sora text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slide-up">
+      <h1
+        class="font-sora text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slide-up"
+      >
         Software a la medida con{" "}
         <span class="text-gradient-primary">claridad y método</span>
       </h1>

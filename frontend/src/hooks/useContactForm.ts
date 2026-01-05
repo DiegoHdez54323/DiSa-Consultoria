@@ -1,10 +1,12 @@
+// frontend/src/hooks/useContactForm.ts
 import { useState } from "react";
 import { z } from "zod";
-
 
 const formSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
   email: z.string().email("Por favor ingresa un email válido"),
+  // Nuevo campo de teléfono obligatorio para contactar por WhatsApp
+  phone: z.string().min(10, "Ingresa un número válido de 10 dígitos"), 
   company: z.string().optional(),
   message: z.string().min(10, "El mensaje es muy corto, cuéntanos más"),
   _gotcha: z.string().optional(), 
@@ -14,6 +16,7 @@ export const useContactForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "", // Inicializar estado
     company: "",
     message: "",
     _gotcha: "",
@@ -67,7 +70,8 @@ export const useContactForm = () => {
       }
 
       setStatus("success");
-      setFormData({ name: "", email: "", company: "", message: "", _gotcha: "" });
+      // Limpiar formulario completo
+      setFormData({ name: "", email: "", phone: "", company: "", message: "", _gotcha: "" });
       
       setTimeout(() => setStatus("idle"), 5000);
 

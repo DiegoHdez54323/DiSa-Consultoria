@@ -1,60 +1,71 @@
 ---
+// frontend/src/components/services/ProcessSection.astro
+import { Phone, FileSearch, PenTool, Rocket } from "lucide-astro";
+
 const steps = [
-  { step: "01", title: "Descubrimiento", desc: "Analizamos tus necesidades y objetivos" },
-  { step: "02", title: "Estrategia", desc: "Diseñamos la solución perfecta" },
-  { step: "03", title: "Desarrollo", desc: "Construimos con las mejores prácticas" },
-  { step: "04", title: "Lanzamiento", desc: "Desplegamos y optimizamos" },
+  { 
+    step: "01", 
+    title: "Llamada de Filtro (15 min)", 
+    desc: "Breve charla gratuita para entender tu problema y darte un rango de precios estimado.",
+    icon: Phone
+  },
+  { 
+    step: "02", 
+    title: "Diagnóstico DiSa", 
+    desc: "Profundizamos en tu negocio. Te entregamos un Prototipo Visual y Arquitectura técnica. (Costo 100% acreditable).",
+    icon: FileSearch
+  },
+  { 
+    step: "03", 
+    title: "Propuesta Exacta", 
+    desc: "Con el diagnóstico listo, te damos precio fijo y fechas de entrega garantizadas por contrato.",
+    icon: PenTool
+  },
+  { 
+    step: "04", 
+    title: "Desarrollo y Entrega", 
+    desc: "Construimos tu software con demos semanales. Tú ves el avance real, sin cajas negras.",
+    icon: Rocket
+  },
 ];
 ---
 
-<section class="relative py-24 overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-hero"></div>
-  <div class="absolute inset-0 bg-grid opacity-10"></div>
-
-  <div class="relative container mx-auto px-6">
-    <div class="text-center mb-16 scroll-reveal">
-      <span
-        class="font-inter text-sm uppercase tracking-widest text-primary mb-4 block"
-      >
-        Metodología
-      </span>
-      <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-foreground mb-4">
-        Nuestro <span class="text-gradient-primary">Proceso</span>
+<section class="py-24 relative bg-background overflow-hidden">
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="font-orbitron text-3xl md:text-5xl font-bold mb-6">
+        Tu camino al <span class="text-gradient-primary">Éxito Digital</span>
       </h2>
-      <p class="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
-        Un enfoque estructurado que garantiza resultados excepcionales
+      <p class="text-muted-foreground max-w-2xl mx-auto">
+        Sin tecnicismos innecesarios. Un proceso probado para minimizar riesgos y maximizar resultados.
       </p>
     </div>
 
-    {/* Process steps */}
-    <div class="grid md:grid-cols-4 gap-8">
-      {
-        steps.map((item, i) => (
-          <div
-            class="relative group scroll-reveal"
-            style={`transition-delay: ${i * 150}ms`}
-          >
-            {/* Connector line (Desktop only, excepto el ultimo) */}
-            {i < steps.length - 1 && (
-              <div class="hidden md:block absolute top-8 left-[60%] w-full h-[2px] bg-linear-to-r from-primary/50 to-transparent" />
-            )}
+    <div class="relative max-w-4xl mx-auto">
+      {/* Línea conectora central (Desktop) */}
+      <div class="absolute left-[19px] top-4 bottom-4 w-0.5 bg-gradient-to-b from-primary/50 via-primary/20 to-transparent md:left-1/2 md:-ml-px"></div>
 
-            <div class="relative text-center">
-              <div
-                class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-primary text-primary-foreground font-orbitron font-bold text-xl mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
-              >
-                {item.step}
-              </div>
-              <h3 class="font-orbitron text-xl font-semibold text-foreground mb-2">
-                {item.title}
-              </h3>
-              <p class="font-inter text-sm text-muted-foreground">
-                {item.desc}
-              </p>
+      <div class="space-y-12">
+        {steps.map((item, index) => (
+          <div class={`relative flex flex-col md:flex-row gap-8 items-start ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
+            
+            {/* Icono / Punto central */}
+            <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-background border-2 border-primary z-10 shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]">
+              <item.icon class="w-5 h-5 text-primary" />
             </div>
+
+            {/* Contenido (Lado Izq/Der) */}
+            <div class={`pl-16 md:pl-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-16 md:text-right' : 'md:pl-16'}`}>
+              <span class="text-sm font-bold text-primary tracking-widest uppercase mb-1 block">Paso {item.step}</span>
+              <h3 class="font-orbitron text-xl font-bold text-foreground mb-3">{item.title}</h3>
+              <p class="text-muted-foreground leading-relaxed">{item.desc}</p>
+            </div>
+            
+            {/* Espacio vacío para equilibrar grid */}
+            <div class="hidden md:block md:w-1/2" />
           </div>
-        ))
-      }
+        ))}
+      </div>
     </div>
   </div>
 </section>

@@ -11,7 +11,7 @@ import DisaFullLogo from "../assets/DisaFullLogo.svg?react";
 
 const navLinks = [
   { href: "/", label: "Inicio" },
-  { href: "/servicios", label: "Servicios" },
+  { href: "/servicios", label: "Costos" },
   { href: "/portafolio", label: "Portafolio" },
   { href: "/blog", label: "Blog" },
   { href: "/contacto", label: "Contacto" },

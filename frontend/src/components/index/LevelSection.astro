@@ -1,0 +1,76 @@
+---
+// frontend/src/components/index/LevelsSection.astro
+import { Check, Info } from "lucide-react";
+
+const levels = [
+  {
+    name: "Nivel 1: Esencial",
+    target: "Validación / MVP",
+    desc: "Ideal para resolver una necesidad puntual urgente con bajo riesgo.",
+    features: ["Funcionalidad Core", "Diseño Estándar", "Despliegue Rápido (3-5 semanas)"]
+  },
+  {
+    name: "Nivel 2: Crecimiento",
+    target: "Operación Diaria",
+    desc: "El equilibrio perfecto. Sistemas robustos que soportan tu operación actual.",
+    features: ["Múltiples Roles & Permisos", "Reportes Exportables", "Integraciones Clave", "Soporte Prioritario"],
+    highlight: true
+  },
+  {
+    name: "Nivel 3: Pro / Enterprise",
+    target: "Escalamiento",
+    desc: "Infraestructura preparada para alto volumen y lógica de negocio compleja.",
+    features: ["Business Intelligence (BI)", "Auditoría & Seguridad Avanzada", "Arquitectura Escalable", "SLA Personalizado"]
+  }
+];
+---
+
+<section class="py-24 relative bg-muted/10 border-y border-border/30">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-primary font-bold tracking-widest text-sm uppercase mb-2 block">Alcance Flexible</span>
+            <h2 class="font-orbitron text-3xl md:text-5xl font-bold mb-4">Niveles de <span class="text-gradient-primary">Inversión</span></h2>
+            <p class="text-muted-foreground max-w-2xl mx-auto">Nos adaptamos a la etapa de madurez de tu negocio. No pagues por lo que no necesitas hoy.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
+            {levels.map(level => (
+                <div class={`p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-2 ${level.highlight ? 'border-primary/50 bg-primary/5 relative shadow-xl shadow-primary/10' : 'border-border/50 bg-card/50'}`}>
+                    {level.highlight && (
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-primary text-primary-foreground px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                            Más Solicitado
+                        </div>
+                    )}
+                    <div class="mb-6">
+                        <span class="text-xs uppercase tracking-wider text-muted-foreground block mb-2">{level.target}</span>
+                        <h3 class="font-orbitron text-2xl font-bold text-foreground">{level.name}</h3>
+                    </div>
+                    
+                    <p class="text-sm text-foreground/80 mb-8 leading-relaxed min-h-[60px]">{level.desc}</p>
+                    
+                    <ul class="space-y-4 mb-8">
+                        {level.features.map(f => (
+                            <li class="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div class="mt-0.5 rounded-full bg-primary/10 p-1">
+                                    <Check className="w-3 h-3 text-primary" />
+                                </div>
+                                {f}
+                            </li>
+                        ))}
+                    </ul>
+
+                    <a href="/contacto" class={`w-full block text-center py-3 rounded-xl font-semibold transition-all ${level.highlight ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-muted hover:bg-muted/80 text-foreground'}`}>
+                        Cotizar este Nivel
+                    </a>
+                </div>
+            ))}
+        </div>
+        
+        <div class="mt-12 text-center">
+            <p class="text-sm text-muted-foreground inline-flex items-center gap-2 bg-card border border-border/50 px-4 py-2 rounded-full">
+                <Info className="w-4 h-4" />
+                Definimos tu nivel exacto durante el <strong>Diagnóstico DiSa</strong>.
+            </p>
+        </div>
+    </div>
+</section>

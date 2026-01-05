@@ -31,7 +31,7 @@ function mapPortfolioProject(doc: any): PortfolioProject {
     categories,
     gradient: doc.gradient ?? undefined,
     year: doc.year,
-    link: doc.link ?? undefined, // [!code ++] Agregamos esto aquí
+    link: doc.link ?? undefined, 
   };
 }
 

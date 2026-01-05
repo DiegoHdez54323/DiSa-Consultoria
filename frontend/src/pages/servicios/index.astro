@@ -5,13 +5,11 @@ import ServicesHero from "../../components/services/ServicesHero.astro";
 import ProcessSection from "../../components/services/ProcessSection.astro";
 import CTASection from "../../components/services/CTASection.astro";
 import { ServiceCard3D } from "../../components/services/ServiceCard3D";
-
-// 1. Eliminamos la importación estática
-// import { servicesData } from "../data/servicesFull";
-
-// 2. Importamos el servicio de Sanity y los tipos
 import { getAllServices } from "../../services/servicesService";
 import type { Service } from "../../sanity/types/services";
+import { ServicesInteractive } from "../../components/index/ServiceInteractive";
+import { FAQSection } from "../../components/services/FAQSection";
+import type { visitDiff } from "sanity";
 
 // 3. Obtenemos los datos (Fetching)
 const allServices: Service[] = await getAllServices();
@@ -22,36 +20,12 @@ const allServices: Service[] = await getAllServices();
   description="Soluciones tecnológicas a medida: Desarrollo Web, Cloud, IA y Consultoría."
   canonicalURL={new URL("/servicios", Astro.site)}
 >
-  <main class="min-h-screen bg-background overflow-hidden">
-    <ServicesHero />
-
-    <section class="relative py-24">
-      <div class="container mx-auto px-6">
-        <div class="text-center mb-16 scroll-reveal">
-          <span
-            class="font-inter text-sm uppercase tracking-widest text-primary mb-4 block"
-          >
-            Soluciones Integrales
-          </span>
-          <h2
-            class="font-orbitron text-3xl md:text-5xl font-bold text-foreground"
-          >
-            ¿Cómo podemos <span class="text-gradient-secondary">ayudarte</span>?
-          </h2>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {
-            /* 4. Usamos 'allServices' (datos reales) en lugar de 'servicesData' */
-            allServices.map((service, index) => (
-              <ServiceCard3D client:visible service={service} index={index} />
-            ))
-          }
-        </div>
-      </div>
+  <main class="min-h-screen overflow-hidden">
+    <section class="bg-background flex flex-col gap-0">
+      <ServicesInteractive client:load />
+      <CTASection />
+      <ProcessSection />
+      <FAQSection client:visible /> 
     </section>
-
-    <ProcessSection />
-    <CTASection />
   </main>
 </BaseLayout>

@@ -1,0 +1,48 @@
+import {
+  Code2,
+  Cpu,
+  Cloud,
+  Plug,
+  Database,
+  FileCode,
+  Globe,
+  GitBranch,
+  Box,
+  Terminal,
+  Server,
+  Lock,
+  Wifi,
+  Monitor,
+  Smartphone,
+  Workflow,
+  Layers,
+  Zap,
+  BarChart3,
+  Shield,
+} from "lucide-react";
+
+export const techStack = [
+  { name: "React", icon: Code2 },
+  { name: "Node.js", icon: Cpu },
+  { name: "Cloud", icon: Cloud },
+  { name: "APIs", icon: Plug },
+  { name: "PostgreSQL", icon: Database },
+  { name: "TypeScript", icon: FileCode },
+  { name: "Next.js", icon: Globe },
+  { name: "Git", icon: GitBranch },
+  { name: "Docker", icon: Box },
+  { name: "Terminal", icon: Terminal },
+];
+
+export const techStack2 = [
+  { name: "AWS", icon: Server },
+  { name: "Auth", icon: Lock },
+  { name: "WebSockets", icon: Wifi },
+  { name: "Desktop", icon: Monitor },
+  { name: "Mobile", icon: Smartphone },
+  { name: "Workflows", icon: Workflow },
+  { name: "Modern Stack", icon: Layers },
+  { name: "Integrations", icon: Zap },
+  { name: "Analytics", icon: BarChart3 },
+  { name: "Security", icon: Shield },
+];

@@ -525,18 +525,35 @@ html {
 }
 
 /* Marquee animations */
+.marquee {
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  will-change: transform;
+}
+
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--marquee-gap, 1.5rem);
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-1 * var(--marquee-width, 50%)));
   }
 }
 
 @keyframes marquee-reverse {
   0% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-1 * var(--marquee-width, 50%)));
   }
   100% {
     transform: translateX(0);

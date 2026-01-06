@@ -29,42 +29,107 @@ import { techStack, techStack2 } from "@/data/nosotros/techStack";
     >
     </div>
 
-    <div class="flex gap-6 mb-6 animate-marquee">
-      {
-        [...techStack, ...techStack].map((tech) => (
-          <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
-            <img
-              src={tech.logo}
-              alt={tech.name}
-              class="w-10 h-10 object-contain"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="text-sm text-muted-foreground whitespace-nowrap">
-              {tech.name}
-            </span>
-          </div>
-        ))
-      }
+    <div class="marquee mb-6">
+      <div class="marquee-track animate-marquee" data-marquee-track>
+        <div class="marquee-group">
+          {
+            techStack.map((tech) => (
+              <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  class="w-10 h-10 object-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {tech.name}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          {
+            techStack.map((tech) => (
+              <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  class="w-10 h-10 object-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {tech.name}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
     </div>
 
-    <div class="flex gap-6 animate-marquee-reverse">
-      {
-        [...techStack2, ...techStack2].map((tech) => (
-          <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
-            <img
-              src={tech.logo}
-              alt={tech.name}
-              class="w-10 h-10 object-contain opacity-90"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="text-sm text-muted-foreground whitespace-nowrap">
-              {tech.name}
-            </span>
-          </div>
-        ))
-      }
+    <div class="marquee">
+      <div class="marquee-track animate-marquee-reverse" data-marquee-track>
+        <div class="marquee-group">
+          {
+            techStack2.map((tech) => (
+              <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  class="w-10 h-10 object-contain opacity-90"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {tech.name}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          {
+            techStack2.map((tech) => (
+              <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  class="w-10 h-10 object-contain opacity-90"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {tech.name}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script is:inline>
+  const updateMarqueeWidth = (track) => {
+    const width = track.scrollWidth / 2;
+    track.style.setProperty("--marquee-width", `${width}px`);
+  };
+
+  const initMarquees = () => {
+    document.querySelectorAll("[data-marquee-track]").forEach((track) => {
+      updateMarqueeWidth(track);
+      const observer = new ResizeObserver(() => updateMarqueeWidth(track));
+      observer.observe(track);
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMarquees);
+  } else {
+    initMarquees();
+  }
+</script>

@@ -1,0 +1,73 @@
+---
+import { processSteps } from "@/data/nosotros/processSteps";
+---
+
+<section class="py-24 relative bg-card/30">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16 animate-slide-up">
+      <span
+        class="text-primary font-medium text-sm tracking-wider uppercase mb-4 block"
+      >
+        Proceso claro
+      </span>
+      <h2 class="font-sora text-3xl md:text-4xl font-bold mb-4">
+        Nuestra forma de{" "}
+        <span class="text-gradient-primary">trabajar</span>
+      </h2>
+      <p class="text-muted-foreground max-w-2xl mx-auto">
+        Un proceso estructurado que reduce incertidumbre y acelera resultados.
+      </p>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+      {
+        processSteps.map((step, index) => (
+          <div class="relative flex items-start gap-6 mb-8 animate-fade-in">
+            {index < processSteps.length - 1 && (
+              <div class="absolute left-6 top-14 w-0.5 h-full bg-border" />
+            )}
+
+            <div
+              class={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
+                step.highlight
+                  ? "bg-gradient-primary text-primary-foreground"
+                  : "bg-card border border-border text-foreground"
+              }`}
+            >
+              <step.icon className="w-5 h-5" />
+            </div>
+
+            <div
+              class={`flex-1 p-6 rounded-2xl ${
+                step.highlight
+                  ? "bg-linear-to-br from-primary/10 to-secondary/10 border border-primary/30 glow-primary"
+                  : "bg-card/50 border border-border/50"
+              }`}
+            >
+              <div class="flex flex-wrap items-center gap-3 mb-2">
+                <h3 class="font-sora text-lg font-semibold">{step.title}</h3>
+                <span
+                  class={`text-xs px-3 py-1 rounded-full ${
+                    step.highlight
+                      ? "bg-primary/20 text-primary"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {step.duration}
+                </span>
+              </div>
+              <p class="text-muted-foreground text-sm mb-2">
+                <strong class="text-foreground">Objetivo:</strong>{" "}
+                {step.objective}
+              </p>
+              <p class="text-muted-foreground text-sm">
+                <strong class="text-foreground">Entregable:</strong>{" "}
+                {step.deliverable}
+              </p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

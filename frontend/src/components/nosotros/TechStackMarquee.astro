@@ -1,0 +1,114 @@
+---
+import { techStack, techStack2 } from "@/data/nosotros/techStack";
+---
+
+<section class="py-24 relative bg-card/30 overflow-hidden">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-12 animate-slide-up">
+      <span
+        class="text-primary font-medium text-sm tracking-wider uppercase mb-4 block"
+      >
+        Tecnología
+      </span>
+      <h2 class="font-sora text-3xl md:text-4xl font-bold mb-4">
+        Herramientas <span class="text-gradient-primary">modernas</span>
+      </h2>
+      <p class="text-muted-foreground max-w-2xl mx-auto">
+        Utilizamos tecnologías actuales según las necesidades de cada proyecto.
+      </p>
+    </div>
+  </div>
+
+  <div class="relative">
+    <div
+      class="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-card/80 to-transparent z-10 pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-card/80 to-transparent z-10 pointer-events-none"
+    >
+    </div>
+
+    <div class="marquee mb-6">
+      <div class="marquee-track animate-marquee">
+        <div class="marquee-group">
+          {
+            techStack.map((tech) => (
+              <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  class="w-10 h-10 object-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {tech.name}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          {
+            techStack.map((tech) => (
+              <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  class="w-10 h-10 object-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {tech.name}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee">
+      <div class="marquee-track animate-marquee-reverse">
+        <div class="marquee-group">
+          {
+            techStack2.map((tech) => (
+              <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  class="w-10 h-10 object-contain opacity-90"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {tech.name}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          {
+            techStack2.map((tech) => (
+              <div class="flex flex-col items-center gap-2 p-6 rounded-xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all shrink-0 min-w-[120px]">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  class="w-10 h-10 object-contain opacity-90"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {tech.name}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

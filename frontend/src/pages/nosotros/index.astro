@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroParallax from "../../components/nosotros/HeroParallax";
+import Intro from "../../components/nosotros/Intro.astro";
+import Specialties from "../../components/nosotros/Specialties.astro";
+import ProcessTimeline from "../../components/nosotros/ProcessTimeline.astro";
+import Diagnosis from "../../components/nosotros/Diagnosis.astro";
+import Values from "../../components/nosotros/Values.astro";
+import Benefits from "../../components/nosotros/Benefits.astro";
+import TechStackMarquee from "../../components/nosotros/TechStackMarquee.astro";
+import Faq from "../../components/nosotros/Faq.astro";
+import FinalCta from "../../components/nosotros/FinalCta.astro";
+---
+
+<BaseLayout
+  title="DiSa Consultoría | Sobre Nosotros "
+  description="Conoce al equipo de DiSa Consultoría, nuestra misión, visión y valores. Estamos dedicados a ofrecer soluciones de software personalizadas para impulsar tu negocio."
+  canonicalURL={new URL("/nosotros", Astro.site)}
+  ogType="website"
+>
+  <HeroParallax client:load />
+  <!-- <Intro /> -->
+  <Specialties />
+  <ProcessTimeline />
+  <Diagnosis />
+  <Values />
+  <Benefits />
+  <TechStackMarquee />
+  <Faq />
+  <FinalCta />
+</BaseLayout>

@@ -1,0 +1,31 @@
+---
+import { ourValues } from "@/data/nosotros/ourValues";
+---
+
+<section class="py-24 relative bg-card/30">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16 animate-slide-up">
+      <span class="text-primary font-medium text-sm tracking-wider uppercase mb-4 block">
+        Lo que nos define
+      </span>
+      <h2 class="font-sora text-3xl md:text-4xl font-bold mb-4">
+        Nuestros <span class="text-gradient-primary">principios</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {ourValues.map((value, index) => (
+        <div
+          class="p-6 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all animate-fade-in"
+          style={`animation-delay: ${index * 0.1}s;`}
+        >
+          <div class="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-4">
+            <value.icon className="w-6 h-6 text-primary-foreground" />
+          </div>
+          <h3 class="font-sora text-lg font-semibold mb-2">{value.title}</h3>
+          <p class="text-muted-foreground text-sm">{value.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

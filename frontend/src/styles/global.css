@@ -254,6 +254,18 @@ html {
 
 /* 8. Utilidades personalizadas (tal cual venían de index.css) */
 @layer utilities {
+  .fade-top {
+    mask-image: linear-gradient(to bottom, transparent, black 15%);
+  }
+
+  .fade-bottom {
+    mask-image: linear-gradient(to top, transparent, black 15%);
+  }
+
+  .fade-both {
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  }
+
   .font-orbitron {
     font-family: var(--font-orbitron);
   }

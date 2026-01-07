@@ -4,12 +4,12 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProcessSection from "../../components/services/ProcessSection.astro";
 import CTASection from "../../components/services/CTASection.astro";
 import { getAllServices } from "../../services/servicesService";
-import type { ServiceCategory } from "../../sanity/types/services";
+import type { ServicesCategory } from "../../sanity/types/services";
 import Faq from "../../components/nosotros/Faq.astro";
 import { ServicesInteractive } from "../../components/shared/ServiceInteractive";
 
 // 3. Obtenemos los datos (Fetching)
-const allServices: ServiceCategory[] = await getAllServices();
+const allServices: ServicesCategory[] = await getAllServices();
 ---
 
 <BaseLayout

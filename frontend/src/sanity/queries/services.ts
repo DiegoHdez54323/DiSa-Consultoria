@@ -1,7 +1,8 @@
 import { defineQuery } from "groq";
+import groq from "groq";
 
-export const SERVICES_QUERY = defineQuery(`
-  *[_type == "servicesType"] | order(_createdAt asc){
+export const SERVICES_QUERY = groq`
+*[_type == "servicesType"] | order(_createdAt asc){
     "id": slug.current,
     title,
     subtitle,
@@ -15,5 +16,4 @@ export const SERVICES_QUERY = defineQuery(`
       tag,
       features
     }
-  }
-`);
+  }`;

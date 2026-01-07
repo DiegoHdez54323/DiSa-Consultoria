@@ -1,96 +1,128 @@
-import {defineType, defineField} from 'sanity'
+import { defineType, defineField, defineArrayMember } from "sanity";
+import { defineCliConfig } from "sanity/cli";
 
 export const servicesType = defineType({
   name: 'servicesType',
-  title: 'Servicios',
+  title: 'Servicios (Soluciones)',
   type: 'document',
   fields: [
     defineField({
-      name: 'number',
-      title: 'Número',
-      type: 'number',
-      description: 'Un número identificador u orden del servicio.',
-      validation: (Rule) => Rule.required().min(1),
-    }),
-
-    defineField({
-      name: 'icon',
-      title: 'Icono (lucide-astro)',
-      type: 'string',
-      description: 'Nombre del ícono de lucide-astro. Ejemplo: "Code2", "Cloud", "Sparkles".',
+      name: 'slug',
+      title: 'Slug (ID)',
+      type: 'slug',
+      description: 'Identificador unico del servicio',
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
       validation: (Rule) => Rule.required(),
     }),
 
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Titulo',
       type: 'string',
-      validation: (Rule) => Rule.required().min(3).max(80),
+      description: 'Ej: Automatizaciones, Aplicaciones Web',
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
       name: 'subtitle',
-      title: 'Subtítulo',
+      title: 'Subtitulo',
       type: 'string',
-      validation: (Rule) => Rule.max(140),
+      description: 'Ej: Eficiencia & Ahorro',
     }),
 
     defineField({
       name: 'description',
-      title: 'Descripción',
+      title: 'Descripcion Corta',
       type: 'text',
-      rows: 3,
-      validation: (Rule) => Rule.required().min(20),
+      rows: 2,
+      description: 'Descripcion breve de las tarjetas',
+    }),
+
+    //Configuracion visual
+    defineField({
+      name: 'icon',
+      title: 'Nombre del Icono',
+      type: 'string',
+      description: 'Nombre del componente de lucide-react',
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
-      name: 'features',
-      title: 'Características',
+      name: 'color',
+      title: 'Color Base (Tailwind)',
+      type: 'string',
+      description: 'Clase para el color del texto/icono. ',
+    }),
+
+    defineField({
+      name: 'gradient',
+      title: 'Gradiente (Tailwind)',
+      type: 'string',
+      description: 'Clases para el fondo/gradiente'
+    }),
+
+    defineField({
+      name: 'packages',
+      title: 'Paquetes de Precios',
       type: 'array',
+      description: 'Define los 3 niveles: Esencial, Crecimiento, Pro',
       of: [
-        {
-          type: 'string',
-        },
-      ],
-      description: 'Lista de bullets como ["Feature 1", "Feature 2", ...].',
-      validation: (Rule) => Rule.min(1),
-    }),
-
-    defineField({
-      name: 'gradientIndex',
-      title: 'Clase de gradiente (index)',
-      type: 'string',
-      description:
-        'Clase de Tailwind para el gradiente en cards del home. Ej: "from-primary/10 to-secondary/20" o una clase utilitaria personalizada.',
-    }),
-
-    defineField({
-      name: 'gradientServicePage',
-      title: 'Clase de gradiente (services page)',
-      type: 'string',
-      description: 'Clase de Tailwind para el gradiente en la página de servicios.',
-    }),
-
-    defineField({
-      name: 'accentColor',
-      title: 'Color de acento',
-      type: 'string',
-      description: 'Clase de Tailwind para el color de acento. Ej: "text-primary", "bg-pink-500".',
-    }),
-  ],
-
-  preview: {
-    select: {
-      title: 'title',
-      subtitle: 'subtitle',
-      number: 'number',
-    },
-    prepare(selection) {
-      const {title, subtitle, number} = selection
-      return {
-        title: number ? `${number}. ${title}` : title,
-        subtitle,
-      }
-    },
-  },
+        defineArrayMember({
+          type: 'object',
+          name: 'package',
+          title: 'Paquete',
+          fields: [
+            defineField({
+              name: 'name',
+              title: 'Nombre del Plan',
+              type: 'string',
+              description: 'Ej. Administracion puntual',
+            }),
+            defineField({
+              name: 'price',
+              title: 'Rango de Precio',
+              type: 'string',
+              description: 'Costo aproximado del paquete'
+            }),
+            defineField({
+              name: 'tag',
+              title: 'Etiqueta de Nivel',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Esencial', value: 'Esencial'},
+                  {title: 'Crecimiento', value: 'Crecimiento'},
+                  {title: 'Pro', value: 'Pro'},
+                ],
+                layout: 'radio'
+              }
+            }),
+            defineField({
+              name: 'features',
+              title: 'Caracteristicas (Features)',
+              type: 'array',
+              of: [{type: 'string'}],
+              description: 'Lista de puntos clave que incluye este paquete.',
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'name',
+              subtitle: 'price',
+              tag: 'tag'
+            },
+            prepare({title, subtitle, tag}) {
+              return {
+                title: `${tag}: ${title}`,
+                subtitle: subtitle
+              }
+            }
+          }
+        })
+      ]
+    })
+  ]
 })

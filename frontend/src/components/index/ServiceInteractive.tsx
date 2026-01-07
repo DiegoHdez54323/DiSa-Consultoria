@@ -1,17 +1,27 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Phone, MousePointerClick } from "lucide-react";
-import { servicesData, type ServiceCategory } from "../../data/servicesFull";
+import { ArrowRight, Phone, MousePointerClick, HelpCircle } from "lucide-react";
+// Importamos TODOS los iconos
+import * as LucideIcons from "lucide-react";
 import { ServiceModal } from "./ServiceModal"; 
+// Importamos el tipo corregido
+import type { ServiceCategory } from "../../sanity/types/services";
 
-export const ServicesInteractive = () => {
+interface Props {
+  initialServices: ServiceCategory[];
+}
+
+export const ServicesInteractive = ({ initialServices }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | null>(null);
+
+  // Protección por si viene undefined
+  const services = initialServices || [];
 
   return (
     <>
       <section className="py-24 pt-30 relative bg-background overflow-hidden" id="servicios">
         
-        {/* Background Effects */}
+        {/* Background Effects (Sin cambios) */}
         <div className="absolute inset-0 w-full h-full pointer-events-none">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-purple-500/5 to-primary/5 opacity-50" />
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
@@ -38,50 +48,60 @@ export const ServicesInteractive = () => {
             </p>
           </div>
 
-          {/* Main Grid */}
+          {/* Grid de Servicios */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {servicesData.map((service) => (
-              <motion.div
-                key={service.id}
-                layoutId={`card-container-${service.id}`}
-                onClick={() => setSelectedCategory(service)}
-                whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                className="group cursor-pointer relative rounded-[2rem] bg-card/40 border border-white/5 hover:border-primary/20 transition-colors duration-500 backdrop-blur-sm"
-              >
-                <div className={`absolute inset-0 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-b ${service.gradient.replace('from-', 'from-').replace('to-', 'to-transparent').replace('text-', '')} opacity-5`} />
-                
-                <div className="relative p-8 h-full flex flex-col z-10">
-                  <div className="flex justify-between items-start mb-8">
-                    <div className={`p-4 rounded-2xl bg-card border border-white/5 shadow-xl group-hover:scale-110 transition-transform duration-500 ${service.color}`}>
-                      <service.icon className="w-8 h-8" />
-                    </div>
-                    <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
-                      <MousePointerClick className="w-3 h-3" />
-                      <span>Ver Planes</span>
-                    </div>
-                  </div>
+            {services.map((service) => {
+              
+              // --- CORRECCIÓN AQUÍ ---
+              // Usamos (LucideIcons as any) para evitar el error de índice string
+              const IconComponent = (LucideIcons as any)[service.icon] || HelpCircle;
 
-                  <div className="mt-auto">
-                     <h3 className="font-orbitron text-2xl font-bold text-foreground mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-400 transition-all">
-                       {service.title}
-                     </h3>
-                     <p className={`text-xs font-bold uppercase tracking-widest mb-4 opacity-70 ${service.color}`}>
-                       {service.subtitle}
-                     </p>
-                     <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-2 group-hover:text-foreground/80">
-                       {service.description}
-                     </p>
-                     
-                     <div className="flex items-center gap-2 text-sm font-bold text-foreground opacity-60 group-hover:opacity-100 transition-opacity">
-                       Explorar <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                     </div>
+              // Fallbacks seguros
+              const gradientClass = service.gradient || "from-primary to-blue-500";
+              const colorClass = service.color || "text-primary";
+
+              return (
+                <motion.div
+                  key={service.id}
+                  layoutId={`card-container-${service.id}`}
+                  onClick={() => setSelectedCategory(service)}
+                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                  className="group cursor-pointer relative rounded-[2rem] bg-card/40 border border-white/5 hover:border-primary/20 transition-colors duration-500 backdrop-blur-sm"
+                >
+                  <div className={`absolute inset-0 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-b ${gradientClass.replace('from-', 'from-').replace('to-', 'to-transparent')} opacity-5`} />
+                  
+                  <div className="relative p-8 h-full flex flex-col z-10">
+                    <div className="flex justify-between items-start mb-8">
+                      <div className={`p-4 rounded-2xl bg-card border border-white/5 shadow-xl group-hover:scale-110 transition-transform duration-500 ${colorClass}`}>
+                        <IconComponent className="w-8 h-8" />
+                      </div>
+                      <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+                        <MousePointerClick className="w-3 h-3" />
+                        <span>Ver Planes</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-auto">
+                      <h3 className="font-orbitron text-2xl font-bold text-foreground mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-400 transition-all">
+                        {service.title}
+                      </h3>
+                      <p className={`text-xs font-bold uppercase tracking-widest mb-4 opacity-70 ${colorClass}`}>
+                        {service.subtitle}
+                      </p>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-2 group-hover:text-foreground/80">
+                        {service.description}
+                      </p>
+                      
+                      <div className="flex items-center gap-2 text-sm font-bold text-foreground opacity-60 group-hover:opacity-100 transition-opacity">
+                        Explorar <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
 
-          {/* CTA Footer */}
           <div className="mt-24 text-center">
                <a href="/contacto" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
                  <Phone className="w-4 h-4" />

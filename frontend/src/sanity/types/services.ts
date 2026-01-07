@@ -1,12 +1,17 @@
-export interface Service {
+export type ServicePackage = {
+  name: string;
+  price: string;
+  tag: "Esencial" | "Crecimiento" | "Pro";
+  features: string[];
+};
+
+export type ServiceCategory = {
   id: string;
-  number: number;
-  icon: string;
   title: string;
   subtitle?: string;
   description: string;
-  features: string[];
-  gradientIndex?: string;
-  gradientServicePage?: string;
-  accentColor?: string;
-}
+  icon: string;
+  color?: string;
+  gradient?: string;
+  packages: ServicePackage[];
+};

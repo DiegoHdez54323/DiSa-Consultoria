@@ -1,31 +1,28 @@
 ---
 // src/pages/servicios.astro
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ServicesHero from "../../components/services/ServicesHero.astro";
 import ProcessSection from "../../components/services/ProcessSection.astro";
 import CTASection from "../../components/services/CTASection.astro";
-import { ServiceCard3D } from "../../components/services/ServiceCard3D";
 import { getAllServices } from "../../services/servicesService";
-import type { Service } from "../../sanity/types/services";
+import type { ServiceCategory } from "../../sanity/types/services";
+import Faq from "../../components/nosotros/Faq.astro";
 import { ServicesInteractive } from "../../components/index/ServiceInteractive";
-import { FAQSection } from "../../components/services/FAQSection";
-import type { visitDiff } from "sanity";
 
 // 3. Obtenemos los datos (Fetching)
-const allServices: Service[] = await getAllServices();
+const allServices: ServiceCategory[] = await getAllServices();
 ---
 
 <BaseLayout
-  title="Servicios | DiSa Consultoría"
+  title="Precios | DiSa Consultoría"
   description="Soluciones tecnológicas a medida: Desarrollo Web, Cloud, IA y Consultoría."
-  canonicalURL={new URL("/servicios", Astro.site)}
+  canonicalURL={new URL("/precios", Astro.site)}
 >
   <main class="min-h-screen overflow-hidden">
     <section class="bg-background flex flex-col gap-0">
-      <ServicesInteractive client:load />
+      <ServicesInteractive client:visible initialServices={allServices}/>
       <CTASection />
       <ProcessSection />
-      <FAQSection client:visible /> 
+      <Faq />
     </section>
   </main>
 </BaseLayout>

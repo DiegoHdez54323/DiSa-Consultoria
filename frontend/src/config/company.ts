@@ -23,7 +23,7 @@ export const company = {
 
   routes: {
     home: "/",
-    services: "/servicios",
+    services: "/precios",
     portfolio: "/portafolio",
     blog: "/blog",
     contact: "/contacto",

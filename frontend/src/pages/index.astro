@@ -7,8 +7,8 @@ import PortfolioSection from "../components/index/PortfolioSection/PortfolioSect
 import { ServicesInteractive } from "../components/shared/ServiceInteractive";
 
 import { getAllServices } from "../services/servicesService";
-import type { ServiceCategory } from "../sanity/types/services";
-const allServices: ServiceCategory[] = await getAllServices();
+import type { ServicesCategory } from "../sanity/types/services";
+const allServices: ServicesCategory[] = await getAllServices();
 
 import { getAllPortfolioProjects } from "../services/portfolioService";
 const portfolioProjects = await getAllPortfolioProjects();
@@ -58,7 +58,7 @@ const schema = {
 
     <HeroSection client:load />
 
-    <ServicesInteractive client:visible initialServices={allServices} />
+    <ServicesInteractive client:load initialServices={allServices} />
 
     <PortfolioSection projects={portfolioProjects} />
     <BlogSection posts={latestBlogPosts} />

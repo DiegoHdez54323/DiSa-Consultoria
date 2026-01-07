@@ -5,15 +5,15 @@ import { ArrowRight, Phone, MousePointerClick, HelpCircle } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { ServiceModal } from "./ServiceModal";
 // Importamos el tipo corregido
-import type { ServiceCategory } from "../../sanity/types/services";
+import type { ServicesCategory } from "../../sanity/types/services";
 
 interface Props {
-  initialServices: ServiceCategory[];
+  initialServices: ServicesCategory[];
 }
 
 export const ServicesInteractive = ({ initialServices }: Props) => {
   const [selectedCategory, setSelectedCategory] =
-    useState<ServiceCategory | null>(null);
+    useState<ServicesCategory | null>(null);
 
   // Protección por si viene undefined
   const services = initialServices || [];
@@ -26,7 +26,7 @@ export const ServicesInteractive = ({ initialServices }: Props) => {
       >
         {/* Background Effects (Sin cambios) */}
         <div className="absolute inset-0 w-full h-full pointer-events-none">
-          <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-purple-500/5 to-primary/5 opacity-50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-purple-500/5 to-primary/5 opacity-50" />
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
           <div
             className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
@@ -46,7 +46,7 @@ export const ServicesInteractive = ({ initialServices }: Props) => {
             </motion.span>
             <h2 className="font-orbitron text-4xl md:text-6xl font-black mb-6 text-foreground leading-tight">
               Tecnología para <br />
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-primary via-blue-400 to-purple-500 animate-gradient-x">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500 animate-gradient-x">
                 Escalar tu Negocio
               </span>
             </h2>

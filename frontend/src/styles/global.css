@@ -1,3 +1,4 @@
+@source "./safelist.txt";
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 @import "tailwind-animate";
@@ -276,7 +277,13 @@ html {
   }
 
   .fade-both {
-    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
   }
 
   .font-orbitron {

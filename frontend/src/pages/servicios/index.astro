@@ -8,7 +8,7 @@ import { ServiceCard3D } from "../../components/services/ServiceCard3D";
 import { getAllServices } from "../../services/servicesService";
 import type { Service } from "../../sanity/types/services";
 import { ServicesInteractive } from "../../components/index/ServiceInteractive";
-import { FAQSection } from "../../components/services/FAQSection";
+import Faq from "../../components/nosotros/Faq.astro";
 import type { visitDiff } from "sanity";
 
 // 3. Obtenemos los datos (Fetching)
@@ -25,7 +25,7 @@ const allServices: Service[] = await getAllServices();
       <ServicesInteractive client:load />
       <CTASection />
       <ProcessSection />
-      <FAQSection client:visible /> 
+      <Faq />
     </section>
   </main>
 </BaseLayout>

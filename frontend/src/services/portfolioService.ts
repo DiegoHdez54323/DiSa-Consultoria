@@ -25,6 +25,11 @@ function mapPortfolioProject(doc: any): PortfolioProject {
     slug: doc.slug, // Mapeamos el slug
     subtitle: doc.subtitle,
     description: doc.description,
+    heroImage: doc.heroImage ? { source: doc.heroImage, alt: doc.title } : undefined,
+    gallery: doc.gallery?.map((img: any) => ({
+      source: img,
+      alt: img.alt || "Imagen de galeria"
+    })),
     challenge: doc.challenge,
     quote: doc.quote,
     results: doc.results,

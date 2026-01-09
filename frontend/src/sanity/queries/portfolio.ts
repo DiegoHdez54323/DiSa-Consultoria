@@ -50,7 +50,7 @@ export const portfolioProjectsByCategorySlugQuery = groq`
   }
 `;
 
-// Esta es la query nueva para la página de detalle
+// Query pagina de proyecto
 export const portfolioProjectBySlugQuery = groq`
   *[_type == "portfolioType" && slug.current == $slug][0] {
     _id,
@@ -58,6 +58,8 @@ export const portfolioProjectBySlugQuery = groq`
     "slug": slug.current,
     subtitle,
     description,
+    heroImage{ ..., asset-> },
+    gallery[]{ ..., asset-> },
     challenge,
     quote,
     results,

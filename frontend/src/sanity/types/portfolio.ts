@@ -32,6 +32,8 @@ export interface PortfolioProject {
   slug?: string;
   subtitle?: string;
   description: string;
+  heroImage?: PortfolioImage;
+  gallery?: PortfolioImage[];
   challenge?: string;
   quote?: PortfolioQuote;
   results?: PortfolioResult[];

@@ -1,0 +1,268 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CTASection from "../../components/services/CTASection.astro";
+import { ProjectCard } from "../../components/portfolio/ProjectCard";
+// Eliminamos TechIcon, ahora usamos TechStack
+import TechStack from "../../components/portfolio/TechStack.astro"; 
+
+import { getPortfolioProjectBySlug, getAllPortfolioProjects } from "../../services/portfolioService";
+import { urlForImage } from "../../sanity/lib/url-for-image";
+
+export async function getStaticPaths() {
+  const projects = await getAllPortfolioProjects();
+  const validProjects = projects.filter((project) => project.slug);
+  return validProjects.map((project) => ({
+    params: { slug: project.slug! },
+  }));
+}
+
+const { slug } = Astro.params;
+const project = await getPortfolioProjectBySlug(slug as string);
+
+if (!project) {
+  return Astro.redirect("/404");
+}
+
+// 1. Obtener URL de imagen Hero (o fallback a la principal)
+const heroImageUrl = project.heroImage?.source
+  ? urlForImage(project.heroImage.source).width(1920).height(1080).url()
+  : project.image?.source
+    ? urlForImage(project.image.source).width(1920).height(1080).url()
+    : "/placeholder.jpg";
+
+// 2. Lógica para Proyectos Relacionados
+const allProjects = await getAllPortfolioProjects();
+const relatedProjects = allProjects
+  .filter(p => p.id !== project.id && p.slug)
+  .map(p => {
+    let score = 0;
+    const currentCats = project.categories.map(c => c.id);
+    const pCats = p.categories.map(c => c.id);
+    const currentInds = project.industries || [];
+    const pInds = p.industries || [];
+    
+    if (pCats.some(id => currentCats.includes(id))) score += 2;
+    if (pInds.some(ind => currentInds.includes(ind))) score += 1;
+    
+    return { ...p, score };
+  })
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={`${project.title} | Portafolio Disa`}
+  description={project.description}
+>
+  <main class="min-h-screen bg-background font-inter selection:bg-primary/30">
+    
+    {/* --- HERO SECTION --- */}
+    <section class="relative h-[80vh] min-h-[600px] flex items-end justify-start overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img 
+                src={heroImageUrl} 
+                alt={project.title} 
+                class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-black/30"></div>
+        </div>
+
+        <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-16 md:pb-24">
+            <div class="max-w-4xl">
+                 <div class="flex flex-wrap gap-2 mb-6">
+                    {project.industries?.map(ind => (
+                        <span class="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full text-sm font-medium">
+                            {ind}
+                        </span>
+                    ))}
+                </div>
+
+                <h1 class="text-4xl md:text-7xl font-sora font-bold text-white mb-6 leading-tight">
+                    {project.title}
+                </h1>
+                
+                {project.subtitle && (
+                    <p class="text-xl md:text-2xl text-white/80 font-light max-w-2xl mb-8">
+                        {project.subtitle}
+                    </p>
+                )}
+
+                <div class="flex flex-wrap items-center gap-6">
+                    <div class="flex flex-wrap gap-2">
+                         {project.categories?.map(cat => (
+                            <span class={`px-3 py-1 rounded-md text-sm font-medium bg-primary text-primary-foreground`}>
+                                {cat.title}
+                            </span>
+                         ))}
+                    </div>
+                    {project.year && (
+                         <span class="text-white/60 text-sm font-mono border-l border-white/20 pl-6">
+                            {project.year}
+                         </span>
+                    )}
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    {/* --- CONTENIDO PRINCIPAL --- */}
+    <div class="px-6 md:px-12 max-w-7xl mx-auto py-24 space-y-32">
+      
+      {/* Reto & Solución */}
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-24">
+          <div class="lg:col-span-4 space-y-8">
+             <div>
+                <h3 class="text-sm font-bold text-primary uppercase tracking-widest mb-2">El Reto</h3>
+                <p class="text-lg text-muted-foreground leading-relaxed">
+                   {project.challenge || project.description}
+                </p>
+             </div>
+             
+             {project.link && (
+                 <a 
+                    href={project.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 text-primary font-bold hover:underline mt-4 group"
+                 >
+                     Visitar sitio web
+                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                 </a>
+             )}
+          </div>
+
+          <div class="lg:col-span-8">
+              {project.quote && (
+                <blockquote class="text-2xl md:text-3xl font-sora font-medium text-foreground italic mb-12 pl-6 border-l-4 border-primary bg-primary/5 py-4 pr-4 rounded-r-2xl">
+                    "{project.quote.text}"
+                    <footer class="text-base text-primary font-bold mt-4 not-italic font-inter">
+                         — {project.quote.author}
+                    </footer>
+                </blockquote>
+             )}
+
+             {/* Resultados Grid */}
+             {project.results && project.results.length > 0 && (
+                <div class="space-y-8 mt-16">
+                    <h3 class="text-2xl font-bold font-sora flex items-center gap-2">
+                        <span class="w-8 h-1 bg-primary rounded-full"></span>
+                        Resultados Clave
+                    </h3>
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        {project.results.map((res, idx) => (
+                            <div class="p-6 bg-card rounded-2xl border border-border/50 hover:border-primary/30 transition-colors shadow-sm">
+                               <span class="text-5xl font-bold text-primary/10 mb-4 block font-sora select-none">0{idx + 1}</span>
+                                <h4 class="font-bold text-lg mb-2 font-sora">{res.title}</h4>
+                                <p class="text-sm text-muted-foreground leading-relaxed">{res.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                 </div>
+             )}
+          </div>
+      </div>
+
+      {/* --- SECCIÓN PROCESO --- */}
+      {project.process && project.process.length > 0 && (
+        <section class="relative">
+          <div class="max-w-3xl mx-auto text-center mb-16">
+             <h2 class="text-3xl md:text-4xl font-sora font-bold mb-4">¿Cómo lo hicimos?</h2>
+             <p class="text-muted-foreground">Nuestro proceso paso a paso.</p>
+          </div>
+          
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+             {project.process.map((step, i) => (
+                 <div class="group relative p-6 bg-card/50 rounded-3xl border border-border/50 hover:border-primary/40 hover:bg-card transition-all duration-300">
+                     <div class="text-5xl font-bold text-primary/20 mb-6 font-sora group-hover:text-primary transition-colors duration-300">
+                        0{i + 1}
+                     </div>
+                     <div class="relative z-10">
+                        <h4 class="text-xl font-bold mb-3 font-sora text-foreground">{step.title}</h4>
+                        <p class="text-sm text-muted-foreground leading-relaxed font-inter">{step.description}</p>
+                     </div>
+                 </div>
+             ))}
+          </div>
+        </section>
+      )}
+
+    </div>
+
+    {/* --- SECCIÓN TECH STACK (NUEVO DISEÑO) --- */}
+    {project.technologies && project.technologies.length > 0 && (
+        <TechStack technologies={project.technologies} />
+    )}
+    
+    {/* --- GALERÍA / CARRUSEL --- */}
+    {project.gallery && project.gallery.length > 0 && (
+        <section class="py-24 bg-foreground/5 border-y border-border/50 overflow-hidden">
+             <div class="px-6 md:px-12 max-w-7xl mx-auto mb-12">
+                <h3 class="text-3xl font-sora font-bold flex items-center gap-3">
+                    Galería del Proyecto
+                    <span class="h-px flex-1 bg-border/50 ml-4"></span>
+                </h3>
+             </div>
+            
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 px-6 md:px-12 no-scrollbar">
+                {project.gallery.map((img) => (
+                    <div class="snap-center shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-2xl overflow-hidden shadow-xl border border-border/50 bg-card group relative">
+                         <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
+                        <img 
+                            src={urlForImage(img.source).width(800).height(450).url()} 
+                            alt={img.alt} 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            loading="lazy"
+                        />
+                     </div>
+                ))}
+            </div>
+        </section>
+    )}
+
+    {/* --- PROYECTOS RELACIONADOS --- */}
+    {relatedProjects.length > 0 && (
+        <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-3xl font-sora font-bold mb-2">Proyectos Similares</h2>
+                    <p class="text-muted-foreground">Otros casos de éxito que podrían interesarte.</p>
+                </div>
+                <a href="/portafolio" class="hidden md:block text-primary font-bold hover:underline">
+                    Ver todos
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-full auto-rows-fr">
+                {relatedProjects.map((p, index) => (
+                     <div class="h-[400px]"> 
+                        <ProjectCard client:visible project={p} index={index} />
+                    </div>
+                ))}
+            </div>
+             
+            <div class="mt-8 text-center md:hidden">
+                 <a href="/portafolio" class="text-primary font-bold hover:underline">
+                    Ver todos los proyectos
+                </a>
+            </div>
+        </section>
+    )}
+
+    <CTASection />
+  </main>
+</BaseLayout>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+  .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
+  :root {
+    --primary-rgb: 59, 130, 246;
+  }
+</style>

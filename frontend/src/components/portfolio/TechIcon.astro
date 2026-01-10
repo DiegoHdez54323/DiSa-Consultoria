@@ -1,0 +1,72 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  techName: string;
+}
+
+const { techName } = Astro.props;
+
+// Diccionario de alias para asegurar que encuentre tus archivos .webp
+const techAliases: Record<string, string> = {
+  "c#": "csharp",
+  "c++": "cpp",
+  ".net": "dotnet",
+  "next.js": "nextjs",
+  "node.js": "nodejs",
+  "react native": "reactnative",
+  "jwt": "jwtauth",
+  "auth": "jwtauth"
+};
+
+const lowerName = techName.toLowerCase();
+const fileName = techAliases[lowerName] || lowerName.replace(/[^a-z0-9]/g, '');
+
+let iconImage = null;
+
+try {
+  // Buscamos las imágenes .webp en tu carpeta de assets
+  const icons = import.meta.glob<{ default: ImageMetadata }>('/src/assets/techStackLogos/*.webp', { eager: true });
+  const matchingPath = Object.keys(icons).find(path => path.includes(`/${fileName}.webp`));
+  if (matchingPath) {
+    iconImage = icons[matchingPath].default;
+  }
+} catch (e) {
+  console.error(`Error loading icon:`, e);
+}
+---
+
+<div class="group relative w-full h-32 rounded-2xl bg-zinc-900 border border-zinc-800 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20">
+  
+  {/* Gradiente de borde animado (Pseudo-borde) */}
+  <div class="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-transparent via-transparent to-transparent group-hover:from-primary group-hover:to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0">
+    <div class="w-full h-full bg-zinc-900 rounded-2xl"></div>
+  </div>
+
+  {/* Luz de fondo sutil */}
+  <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-24 h-24 bg-primary/20 blur-[50px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+  {/* Contenido */}
+  <div class="relative z-10 w-full h-full flex flex-col items-center justify-center gap-4 p-4">
+      
+      {/* Icono con efecto de escala */}
+      <div class="w-12 h-12 relative flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+          {iconImage ? (
+            <Image 
+              src={iconImage} 
+              alt={`${techName} logo`} 
+              class="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 drop-shadow-md" 
+            />
+          ) : (
+            <span class="text-2xl font-bold text-zinc-600 group-hover:text-primary transition-colors">
+              {techName.substring(0, 1).toUpperCase()}
+            </span>
+          )}
+      </div>
+
+      {/* Nombre */}
+      <span class="text-sm font-medium text-zinc-400 group-hover:text-white tracking-wide transition-colors duration-300">
+        {techName}
+      </span>
+  </div>
+</div>

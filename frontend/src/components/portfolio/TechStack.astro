@@ -1,0 +1,93 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  technologies: string[];
+}
+
+const { technologies } = Astro.props;
+
+// --- LÓGICA DE IMÁGENES (Igual que antes) ---
+const techAliases: Record<string, string> = {
+  "c#": "csharp",
+  "c++": "cpp",
+  ".net": "dotnet",
+  "next.js": "nextjs",
+  "node.js": "nodejs",
+  "react native": "reactnative",
+  "jwt": "jwtauth",
+  "auth": "jwtauth",
+  
+};
+
+const icons = import.meta.glob<{ default: ImageMetadata }>('/src/assets/techStackLogos/*.webp', { eager: true });
+
+const getTechData = (techName: string) => {
+    const lowerName = techName.toLowerCase();
+    const fileName = techAliases[lowerName] || lowerName.replace(/[^a-z0-9]/g, '');
+    const matchingPath = Object.keys(icons).find(path => path.includes(`/${fileName}.webp`));
+    
+    return {
+        name: techName,
+        image: matchingPath ? icons[matchingPath].default : null
+    };
+};
+
+const techItems = technologies.map(getTechData);
+---
+
+<section class="py-32 bg-zinc-950 relative border-t border-white/5 overflow-hidden">
+    {/* Decoración de fondo */}
+    <div class="absolute inset-0 bg-gradient-to-r from-primary/10 via-purple-500/10 to-primary/10 rounded-3xl blur-3xl opacity-50"></div>
+    <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+
+    <div class="px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+        
+        {/* Header Centrado */}
+        <div class="text-center mb-16 max-w-2xl mx-auto">
+            <h2 class="text-3xl text-gradient-primary md:text-5xl font-sora font-bold text-white mb-6">
+                Stack Tecnológico
+            </h2>
+            <p class="text-base text-lg">
+                Herramientas seleccionadas para construir esta solución.
+            </p>
+        </div>
+
+        {/* GRID ACTUALIZADO: Iconos grandes y centrados */}
+        {/* 'justify-center' centra las tarjetas si la última fila no está llena */}
+        <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+            {techItems.map((item) => (
+                <div class="group relative w-40 h-44 sm:w-48 sm:h-52 flex flex-col items-center justify-center p-4 rounded-2xl bg-zinc-900/40 border border-white/5 hover:border-primary/40 hover:bg-zinc-900 transition-all duration-300 hover:-translate-y-2">
+                    
+                    {/* Efecto Glow de fondo en hover */}
+                    <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-20 blur-xl rounded-full transition-opacity duration-500"></div>
+
+                    {/* Contenedor del Icono (Más grande) */}
+                    <div class="relative z-10 w-26 h-26 mb-4 flex items-center justify-center bg-zinc-950 rounded-2xl border border-white/5 shadow-inner group-hover:scale-110 group-hover:border-primary/50 transition-all duration-300">
+                        {item.image ? (
+                            <Image 
+                                src={item.image} 
+                                alt={item.name} 
+                                class:list={[
+                                    "w-20 h-20 object-contain transition-all duration-500",
+                                    "filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]",
+                                    { "invert brightness-0 invert-[1]": item.name.toLowerCase() === "next.js"}
+                                ]}
+                            />
+                        ) : (
+                            <span class="text-2xl font-bold text-zinc-600 group-hover:text-primary transition-colors">
+                                {item.name.substring(0, 1).toUpperCase()}
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Nombre (Centrado) */}
+                    <span class="relative z-10 text-base font-medium text-zinc-400 group-hover:text-white transition-colors text-center">
+                        {item.name}
+                    </span>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
